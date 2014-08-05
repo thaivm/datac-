@@ -1,0 +1,86 @@
+﻿2013/10/02 13:36:37.306, A-2013-P49540, 0001, W, 060100001, ###### Welcome to Canon CXDI Controller RF. Copyright by CANON INC. 2013 V2.10.2.7 ######, , , Logging.LogManager
+2013/10/02 13:36:38.305, A-2013-P49540, 0001, D, 030101001, G->F CALL [GetInstance()] G->F CALL, , , Exam.ExamFacade
+2013/10/02 13:36:38.306, A-2013-P49540, 0001, F, 020200017, Workflow : Workflow ExamFacade.GetInstance : 38.305, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:38.307, A-2013-P49540, 0001, E, 020200005, Configflow : facade.GetSystemInfoModelName : 38.307, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:38.308, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSystemInfoModelName()], , , Exam.ExamFacade
+2013/10/02 13:36:38.495, A-2013-P49540, 0001, I, 020200001, WindowUtility : SetMainWindowStartupLocation Window.Name = windStartup, Top = 0, Left = 0, Height = 1080, Width = 1920,  : 38.491, , , WindowLibrary.WindowUtility
+2013/10/02 13:36:39.899, A-2013-P49540, 0001, I, 020200001, WindowUtility : SetMainWindowStartupLocation Window.Name = windMain, Top = 0, Left = 0, Height = 1080, Width = 1920,  : 39.899, , , WindowLibrary.WindowUtility
+2013/10/02 13:36:40.701, A-2013-P49540, 0001, I, 020200005, Configflow : ExamFacade.GetInstance : 40.700, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:40.705, A-2013-P49540, 0001, I, 020200012, Outputflow : ExamFacade.GetInstance : 40.704, , , WorkflowLibrary.Outputflow
+2013/10/02 13:36:40.817, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetHDDUseCapacityInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:40.827, A-2013-P49540, 0001, I, 020200017, Workflow : facade.GetPackageEdition : 40.827, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:40.828, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetPackageEdition()], , , Exam.ExamFacade
+2013/10/02 13:36:40.828, A-2013-P49540, 0001, I, 020200017, Workflow : facade.ValidateProduct : 40.828, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:40.829, A-2013-P49540, 0001, I, 030101001, G->F CALL [ValidateProduct()], , , Exam.ExamFacade
+2013/10/02 13:36:40.891, A-2013-P49540, 0001, I, 020200017, Workflow.setHighPerfomanceMode() Success, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:40.945, A-2013-P49540, 0001, I, 020200017, Workflow.setHybridSleep() Success, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:40.999, A-2013-P49540, 0001, I, 020200017, Workflow.setVideoPowerDownTimeOut() Success, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:41.054, A-2013-P49540, 0001, I, 020200017, Workflow.setPcStanbyTimeOut() Success, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:41.055, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSystemDataApplicationSettingFlags()], , , Exam.ExamFacade
+2013/10/02 13:36:41.263, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetGeneratorSetting()], , , Exam.ExamFacade
+2013/10/02 13:36:41.370, A-2013-P49540, 0001, I, 020200017, Workflow_Start() : GENCommunication = True : 41.370, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:41.370, A-2013-P49540, 0001, I, 020200017, Workflow_Start() : UseCruiseGCOMConverter = False : 41.370, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:41.370, A-2013-P49540, 0001, I, 020200017, Workflow_Start() : UseOverwrap = False : 41.370, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:41.380, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetWorkspaceAndSensorInfoList : 41.380, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:41.380, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetWorkspaceAndSensorInfoList()], , , Exam.ExamFacade
+2013/10/02 13:36:42.872, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetDefaultSensorForWS : 42.872, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:42.873, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetDefaultSensorForWS()], , , Exam.ExamFacade
+2013/10/02 13:36:43.008, A-2013-P49540, 0001, I, 020200001, SensorStatus : updateDefaultSensorForWorkspaceList() : 43.8, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.020, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.SetDefaultSensorForWS : 43.20, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.021, A-2013-P49540, 0001, I, 030101001, G->F CALL [SetDefaultSensorForWS()], , , Exam.ExamFacade
+2013/10/02 13:36:43.073, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.73, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.074, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.082, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.82, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.082, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.085, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.84, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.085, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.087, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.87, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.088, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.091, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.91, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.091, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.095, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.95, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.095, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.100, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.100, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.100, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.105, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.105, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.105, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.110, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.110, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.110, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.116, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.116, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.116, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.120, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.120, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.121, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.127, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.127, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.127, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.132, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.132, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.133, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.139, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.138, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.139, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.143, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.143, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.144, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.148, A-2013-P49540, 0001, I, 020200001, SensorStatus : facade.GetSensorCatalogInfo : 43.148, , , WorkflowLibrary.SensorStateManager
+2013/10/02 13:36:43.149, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorCatalogInfo()], , , Exam.ExamFacade
+2013/10/02 13:36:43.172, A-2013-P49540, 0005, I, 020200017, Workflow : facade.Initialize : 43.172, , , WorkflowLibrary.Workflow
+2013/10/02 13:36:43.173, A-2013-P49540, 0005, I, 030101001, G->F CALL [Initialize()], , , Exam.ExamFacade
+2013/10/02 13:36:43.202, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetDestinationSetting : 43.202, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.203, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetDestinationSetting()], , , Exam.ExamFacade
+2013/10/02 13:36:43.205, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetDestinationSetting : 43.205, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.205, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetDestinationSetting()], , , Exam.ExamFacade
+2013/10/02 13:36:43.207, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetSystemDataApplicationExposureRecord : 43.206, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.208, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSystemDataApplicationExposureRecord()], , , Exam.ExamFacade
+2013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.381, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetCharacterLocale()], , , Exam.ExamFacade
+2013/10/02 13:36:43.393, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetInputCharSetting : 43.393, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.394, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetInputCharSetting()], , , Exam.ExamFacade
+2013/10/02 13:36:43.558, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetSensorInfoList : 43.558, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.559, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetSensorInfoList()], , , Exam.ExamFacade
+2013/10/02 13:36:43.606, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetAccessPointSetting : 43.606, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.607, A-2013-P49540, 0001, I, 030101001, G->F CALL [GetAccessPointSetting()], , , Exam.ExamFacade
+2013/10/02 13:36:44.161, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetSystemDataPatientInputSetting : 44.161, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow2013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow2013/10/022013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow
+2013/10/02 13:36:43.380, A-2013-P49540, 0001, I, 020200005, Configflow : facade.GetIHESettingCharacterSet : 43.380, , , WorkflowLibrary.Configflow
+2013/10/02 14:02:37.620, A-2013-P49540, 0001, I, 020200017, Workflow : facade : 37.620, , , WorkflowLibrary.Workflow

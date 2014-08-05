@@ -1,0 +1,10 @@
+2012-03-27 08:16:28.707,CXDI-FC-S21W-S1,CCS,916,1,060100001,###### Welcome to Canon CXDI. Copyright by CANON INC. 2011 V1.40.3.0 ######,2,,,Canon.Medical.DR.GAIA.Component.Logging.LogManager
+2012-03-27 08:16:31.673,CXDI-FC-S21W-S1,CCS,916,1,030101001,G->F CALL [GetInstance()],2,,,Canon.Medical.DR.Seychelle.Facade.Exam.ExamFacade
+2012-03-27 08:16:31.673,CXDI-FC-S21W-S1,CCS,916,1,020200017,Workflow : ExamFacade.GetInstance : 31.674,2,,,Canon.Medical.DR.Seychelle.UI.WorkflowLibrary.Workflow
+2012-03-27 08:16:31.690,CXDI-FC-S21W-S1,CCS,916,1,020200005,Configflow : facade.GetSystemInfoModelName : 31.674,2,,,Canon.Medical.DR.Seychelle.UI.WorkflowLibrary.Configflow
+2012-03-27 08:16:31.690,CXDI-FC-S21W-S1,CCS,916,1,030101001,G->F CALL [GetSystemInfoModelName()],2,,,Canon.Medical.DR.Seychelle.Facade.Exam.ExamFacade
+2012-03-27 08:16:42.313,CXDI-FC-S21W-S1,CCS,916,1,020200005,Configflow : ExamFacade.GetInstance : 42.313,2,,,Canon.Medical.DR.Seychelle.UI.WorkflowLibrary.Configflow
+2012-03-27 08:16:42.330,CXDI-FC-S21W-S1,CCS,916,1,020200012,Outputflow : ExamFacade.GetInstance : 42.313,2,,,Canon.Medical.DR.Seychelle.UI.WorkflowLibrary.Outputflow
+2012-03-27 08:16:42.517,CXDI-FC-S21W-S1,CCS,916,1,030101001,G->F CALL [GetHDDUseCapacityInfo()],2,,,Canon.Medical.DR.Seychelle.Facade.Exam.ExamFacade
+2012-03-27 08:16:42.610,CXDI-FC-S21W-S1,CCS,916,1,020200017,Workflow : facade.IsDemoVersion : 42.610,2,,,Canon.Medical.DR.Seychelle.UI.WorkflowLibrary.Workflow
+2012-03-27 08:16:42.627,CXDI-FC-S21W-S1,CCS,916,1,030101001,G->F CALL [IsDemoVersion()],2,,,Canon.Medical.DR.Seychelle.Facade.Exam.ExamFacade

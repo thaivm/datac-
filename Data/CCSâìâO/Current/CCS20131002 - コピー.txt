@@ -1,0 +1,1 @@
+﻿2013/10/02 13:36:38.495, A-2013-P49540, 0001, I, 020200011, WindowUtility : SetMainWindowStartupLocation Window.Name = windStartup, Top = 0, Left = 0, Height = 1080, Width = 1920,  : 38.491, , , WindowLibrary.WindowUtility

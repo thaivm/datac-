@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{64D9D861-FC03-411F-83C0-688963379085}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LogViewer.Tests</RootNamespace>
+    <AssemblyName>LogViewer.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>lib\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LogViewer\lib\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\LogViewer\lib\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LogViewer\lib\WPFToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppTest.cs" />
+    <Compile Include="Business\AnalyzePatternManagerTest.cs" />
+    <Compile Include="Business\BaseLogsAnalyserTest.cs" />
+    <Compile Include="Business\FileParser\ILogMemoParserTest.cs" />
+    <Compile Include="Business\FileParser\ILogParserTest.cs" />
+    <Compile Include="Business\IAnalyzePatternTest.cs" />
+    <Compile Include="Business\ItemSetting\BaseItemSettingTest.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphTypeTest.cs" />
+    <Compile Include="Business\ItemSetting\PatternItemSettingTest.cs" />
+    <Compile Include="Model\DataType\PrototypeTest.cs" />
+    <Compile Include="Model\ModelInterface\ICopyableTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\IFileDialogTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\SaveFile\ISaveFileDialogTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\WindowWrapperTest.cs" />
+    <Compile Include="Service\IClosableDialogTest.cs" />
+    <Compile Include="RecentFileListTest.cs" />
+    <Compile Include="RecentFileList_RegistryPersisterTest.cs" />
+    <Compile Include="RecentFileList_XmlPersisterTest.cs" />
+    <Compile Include="ViewModel\Graph\BaseGraphParameterDataGridViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\BaseLogMainViewModelTest.cs" />
+    <Compile Include="ViewModel\LogRecord\CXDILogRecordDisplayViewModelTest.cs" />
+    <Compile Include="ViewModel\SearchKeyword\BaseResultSearchKeywordViewModelTest.cs" />
+    <Compile Include="Util\BetterDialogTest.cs" />
+    <Compile Include="Business\AnalyzePattern.cs" />
+    <Compile Include="Business\FileParser\CCSMemoParserNewTest.cs" />
+    <Compile Include="Business\ItemSetting\FilterItemSettingTest.cs" />
+    <Compile Include="Business\ItemSetting\KeywordCountSettingTest.cs" />
+    <Compile Include="Model\CageTest.cs" />
+    <Compile Include="ViewModel\LogRecord\CCSLogRecordDisplayViewModelTest.cs" />
+    <Compile Include="ViewModel\SearchKeyword\CCSResultSearchKeywordViewModelTest.cs" />
+    <Compile Include="Util\ColorChangedEventArgsTest.cs" />
+    <Compile Include="Util\ColorHandlerTest.cs" />
+    <Compile Include="Util\ColorPickerTest.cs" />
+    <Compile Include="Util\ColorWheelTest.cs" />
+    <Compile Include="CommandManagerHelperTest.cs" />
+    <Compile Include="ViewModel\SearchKeyword\CXDIResultSearchKeywordViewModelTest.cs" />
+    <Compile Include="MVVMHelper\DataGridDragDropBehaviorTest.cs" />
+    <Compile Include="MVVMHelper\DatagridHelperTest.cs" />
+    <Compile Include="Exception\DataValueNotSupportedExceptionTest.cs" />
+    <Compile Include="ViewModel\ViewModelInterface\ILogsDisplayContainerTest.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\MessageBoxViewModelTest.cs" />
+    <Compile Include="View\DateTimePickerTest.cs" />
+    <Compile Include="DelegateCommandTest.cs" />
+    <Compile Include="Service\DialogServiceTest.cs" />
+    <Compile Include="View\EditFilterSettingViewTest.cs" />
+    <Compile Include="ViewModel\Graph\EditGraphParamSettingViewModelTest.cs" />
+    <Compile Include="View\EditGraphParamSettingViewTest.cs" />
+    <Compile Include="ViewModel\Graph\EventDataGridViewModelTest.cs" />
+    <Compile Include="Util\ExtensionMethodTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\FileDialogViewModelTest.cs" />
+    <Compile Include="Util\FileUtilTest.cs" />
+    <Compile Include="View\FilterButtonAreaTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\FolderBrowse\FolderBrowserDialogTest.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\FolderBrowserDialogViewModelTest.cs" />
+    <Compile Include="ViewModel\Graph\GraphViewModelTest.cs" />
+    <Compile Include="View\GraphViewTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\FolderBrowse\IFolderBrowserDialogTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\OpenFile\IOpenFileDialogTest.cs" />
+    <Compile Include="MVVMHelper\Validation\IsDoubleRuleTest.cs" />
+    <Compile Include="MVVMHelper\Validation\IsUlongRuleTest.cs" />
+    <Compile Include="MVVMHelper\ItemsControlExtensionsTest.cs" />
+    <Compile Include="ViewModel\JumpToLineViewModelTest.cs" />
+    <Compile Include="Model\KeyIndexRecordPairTest.cs" />
+    <Compile Include="Model\KeywordCountResultItemTest.cs" />
+    <Compile Include="View\KeywordCountSettingViewTest.cs" />
+    <Compile Include="Model\KeywordModelTest.cs" />
+    <Compile Include="MVVMHelper\LineSeriesProtobyteToDrawingConverterTest.cs" />
+    <Compile Include="View\LoadingDialogTest.cs" />
+    <Compile Include="View\LogDisplaySettingViewTest.cs" />
+    <Compile Include="Model\LogDisplayTest.cs" />
+    <Compile Include="Model\MemoLogTest.cs" />
+    <Compile Include="Util\MessageBoxManagerTest.cs" />
+    <Compile Include="Model\AnalyzedCountKeywordItemTest.cs" />
+    <Compile Include="Model\AnalyzedErrorActionItemTest.cs" />
+    <Compile Include="Model\AnalyzedPatternResultItemTest.cs" />
+    <Compile Include="Model\AnalyzedUserActionItemTest.cs" />
+    <Compile Include="ViewModel\BaseApplyWindowViewModelTest.cs" />
+    <Compile Include="ViewModel\BaseDataGridViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\BaseLogAnalyzeAreaViewModelTest.cs" />
+    <Compile Include="ViewModel\LogRecord\BaseLogRecordDisplayViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\LogsDisplay\BaseLogsDisplayViewModelTest.cs" />
+    <Compile Include="ViewModel\BaseWindowViewModelTest.cs" />
+    <Compile Include="Business\FileParser\CCSParserOldTest.cs" />
+    <Compile Include="Business\FileParser\CXDIMemoParserTest.cs" />
+    <Compile Include="Business\FileParser\CCSMemoParserOldTest.cs" />
+    <Compile Include="Business\FileSetting\BaseSettingManagerTest.cs" />
+    <Compile Include="Business\CCSLogsAnalyserTest.cs" />
+    <Compile Include="Business\CXDILogsAnalyserTest.cs" />
+    <Compile Include="Business\FileParser\ParserManagerTest.cs" />
+    <Compile Include="Business\FileSetting\CCSSettingManagerTest.cs" />
+    <Compile Include="Business\SortListManagerTest.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\CCSAnalyzeAreaViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\LogsDisplay\CCSLogsDisplayViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\CCSMainViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\CountKeywordTabViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\CXDIAnalyzeAreaViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\LogsDisplay\CXDILogsDisplayViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\CXDIMainViewModelTest.cs" />
+    <Compile Include="Business\FileSetting\CXDISettingManagerTest.cs" />
+    <Compile Include="ViewModel\EditSetting\EditCCSFilterSettingViewModelTest.cs" />
+    <Compile Include="ViewModel\EditSetting\EditCCSKeywordCountSettingViewModelTest.cs" />
+    <Compile Include="ViewModel\EditSetting\EditCXDIFilterSettingViewModelTest.cs" />
+    <Compile Include="ViewModel\EditSetting\EditCXDIKeywordCountSettingViewModelTest.cs" />
+    <Compile Include="ViewModel\EditSetting\EditFilterSettingViewModelTest.cs" />
+    <Compile Include="ViewModel\EditSetting\EditKeywordCountSettingViewModelTest.cs" />
+    <Compile Include="ViewModel\EditSetting\EditPatternSettingViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\ErrorActionTabViewModelTest.cs" />
+    <Compile Include="ViewModel\FirmwareInfoTabViewModelTest.cs" />
+    <Compile Include="ViewModel\JumpToTimeViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\FilterButtonViewModelTest.cs" />
+    <Compile Include="ViewModel\LoadingDialogViewModelTest.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\LogBookmarkTabViewModelTest.cs" />
+    <Compile Include="ViewModel\LogDisplayRecordViewModelTest.cs" />
+    <Compile Include="ViewModel\MainViewModelTest.cs" />
+    <Compile Include="ViewModel\MessageBoxExportViewModelTest.cs" />
+    <Compile Include="MVVMHelper\MouseWheelGestureTest.cs" />
+    <Compile Include="View\MoveToLineTest.cs" />
+    <Compile Include="View\MoveToTimeTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\OpenFile\OpenFileDialogTest.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\OpenFileDialogViewModelTest.cs" />
+    <Compile Include="ViewModel\Graph\ParameterDataGridViewModelTest.cs" />
+    <Compile Include="Model\PatternColorTest.cs" />
+    <Compile Include="ViewModel\EditSetting\PatternItemKeysListDataGridViewModelTest.cs" />
+    <Compile Include="ViewModel\EditSetting\PatternItemViewModelTest.cs" />
+    <Compile Include="View\PatternItemViewTest.cs" />
+    <Compile Include="View\PatternManagerViewTest.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\PatternTabViewModelTest.cs" />
+    <Compile Include="MVVMHelper\ProtobyteToDrawingConverterTest.cs" />
+    <Compile Include="ResourcesTest.cs" />
+    <Compile Include="MVVMHelper\RichTextBoxHelperTest.cs" />
+    <Compile Include="MVVMHelper\RowToIndexConverterTest.cs" />
+    <Compile Include="Model\SavedTest.cs" />
+    <Compile Include="Service\FrameworkDialogs\SaveFile\SaveFileDialogTest.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\SaveFileDialogViewModelTest.cs" />
+    <Compile Include="Model\SearchItemTest.cs" />
+    <Compile Include="ViewModel\SearchKeyword\SearchKeywordViewModelTest.cs" />
+    <Compile Include="View\SearchKeywordViewTest.cs" />
+    <Compile Include="Service\ServiceLocatorTest.cs" />
+    <Compile Include="Service\ServiceLocator_ServiceInfoTest.cs" />
+    <Compile Include="View\SetFontStyleDialogTest.cs" />
+    <Compile Include="ViewModel\SetFontStyleDialogViewModelTest.cs" />
+    <Compile Include="ViewModel\SetLogDisplayViewModelTest.cs" />
+    <Compile Include="Business\FileSetting\UserSettingFileExceptionTest.cs" />
+    <Compile Include="ViewModel\Graph\SetRangeOfGraphViewModelTest.cs" />
+    <Compile Include="View\SetRangeOfGraphViewTest.cs" />
+    <Compile Include="SettingsTest.cs" />
+    <Compile Include="Model\StringLineIndexLevelPairTest.cs" />
+    <Compile Include="MVVMHelper\SwitchConverter\SwitchCaseCollectionTest.cs" />
+    <Compile Include="MVVMHelper\SwitchConverter\SwitchCaseTest.cs" />
+    <Compile Include="MVVMHelper\SwitchConverter\SwitchConverterTest.cs" />
+    <Compile Include="MVVMHelper\SwitchConverter\SwitchedContentTest.cs" />
+    <Compile Include="MVVMHelper\TranslateConverterTest.cs" />
+    <Compile Include="MVVMHelper\UniversalValueConverterTest.cs" />
+    <Compile Include="Model\UserActionItemTest.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\UserActionTabViewModelTest.cs" />
+    <Compile Include="Util\UtilityTest.cs" />
+    <Compile Include="Model\ValueDisplayPairTest.cs" />
+    <Compile Include="ViewModel\BaseViewModelTest.cs" />
+    <Compile Include="MVVMHelper\BindingProxyTest.cs" />
+    <Compile Include="MVVMHelper\BoolInverterConverterTest.cs" />
+    <Compile Include="MVVMHelper\CommandReferenceTest.cs" />
+    <Compile Include="MVVMHelper\DataGridDragDropEventArgsTest.cs" />
+    <Compile Include="MVVMHelper\DataPipeTest.cs" />
+    <Compile Include="MVVMHelper\DelegateCommandNotGenericTest.cs" />
+    <Compile Include="MVVMHelper\EnumToBooleanConverterTest.cs" />
+    <Compile Include="MVVMHelper\FontSizeConverterTest.cs" />
+    <Compile Include="MVVMHelper\FontStyleHelperTest.cs" />
+    <Compile Include="MVVMHelper\FractionToDoubleConverterTest.cs" />
+    <Compile Include="Model\BaseLogRecordTest.cs" />
+    <Compile Include="Business\FileParser\BaseParserTest.cs" />
+    <Compile Include="Model\CCSLogRecordTest.cs" />
+    <Compile Include="Model\CounterTest.cs" />
+    <Compile Include="Model\CXDIFirmwareTest.cs" />
+    <Compile Include="Model\CXDILogRecordTest.cs" />
+    <Compile Include="Model\ErrorActionItemTest.cs" />
+    <Compile Include="Model\FilterItemProxyTest.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphParamResultItemTest.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphParamSettingTest.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphRangeSettingTest.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphResultTest.cs" />
+    <Compile Include="Business\FileParser\CCSParserTest.cs" />
+    <Compile Include="Business\FileParser\CXDIParserTest.cs" />
+    <Compile Include="Util\ConfigValueTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\ExportFileNameDialogViewTest.cs" />
+    <Compile Include="MVVMHelper\WeakEventListenerTest.cs" />
+    <Compile Include="WindowViewModelMapping\IWindowViewModelMappingsTest.cs" />
+    <Compile Include="WindowViewModelMapping\WindowViewModelMappingsTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AuthoringTests.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LogViewer\LogViewer.csproj">
+      <Project>{DB264B51-41FE-4E62-A358-B09CA33255B6}</Project>
+      <Name>LogViewer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="DataTest\CCSLogTest.csv" />
+    <None Include="DataTest\CCSLogTest_1.csv" />
+    <None Include="DataTest\CCSLogTest_2.csv" />
+    <Shadow Include="Test References\LogViewer.accessor" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

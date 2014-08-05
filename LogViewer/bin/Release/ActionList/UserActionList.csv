@@ -1,0 +1,77 @@
+1,Workflow : login_Login :,ログインボタンが押されました
+2,Workflow : readyForShutdown :,シャットダウンボタンが押されました
+3,ProvideExamflow : InputedClient :,入力ボタンが押されました/検査開始ボタンが押されました
+4,Workflow : facade.ChangeOffLine :,OnLineボタンが押されました
+5,Workflow : facade.ChangeOnLine :,OffLineボタンが押されました
+6,ProvideExamflow : Mediator_EditProgramProvide : ,緊急患者ボタンが押されました
+7,ProvideExamflow : Mediator_EditProgramProvide :,検査開始ボタンが押されました
+8,ProvideExamflow : facade.DeletePatientInfoCandidate :,削除ボタンが押されました
+9,ExamMgr[GetManualPCV],プロトコルボタンが押されました
+10,Workflow : EditProgramCancelClick :,キャンセルボタンが押されました
+11,Examflow : facade.StartExam :,検査開始ボタンが押されました
+13,AnnotationOperator : facade.HideAnnotationList :,Infoボタンが押されました
+14,[UI Image Proc] EXAM StaticCond.GeometryAngle = 90 :,時計回り回転ボタンが押されました
+15,[UI Image Proc] EXAM StaticCond.GeometryAngle = 0 :,反時計回り回転ボタンが押されました
+16,[UI Image Proc] EXAM StaticCond.FlipHorizontal = False :,左右反転ボタンが押されました
+17,[UI Image Proc] EXAM StaticCond.FlipVertical = True :,上下反転ボタンが押されました
+18,[UI Image Proc] EXAM StaticCond.LUT_ZeroIsBlack = True :,ネガ反転ボタンが押されました
+19,[UI Image Proc] The Panning button was pushed. :,ハンドボタンが押されました
+20,[UI Image Proc] EXAM StaticCond.GeometryHighQualityMode = HighQualityMode.ZOOM1 :,HQボタンが押されました
+21,[UI Image Proc] EXAM StaticCond.GeometryZoomMode = Manual :,拡大ボタンが押されました
+22,[UI Image Proc] EXAM StaticCond.GeometryHighQualityMode = FIT :,縮小ボタンが押されました
+23,[UI Image Proc] EXAM StaticCond.GeometryZoomMode = AutoFit,サイズ初期化ボタンが押されました
+24,[UI Draw Object] Laterality L Show,Lボタンが押されました
+25,[UI Draw Object] Laterality R Show,Rボタンが押されました
+26,[UI Draw Object] The ROI button was pushed. :,ROIボタンが押されました
+27,[UI Draw Object] The OK button was pushed in the ROI mode. :,ROIOKボタンが押されました
+28,[UI Draw Object] The EditReset/Delete button was pushed. :,ROI削除ボタンが押されました
+29,[UI Draw Object] The ROI Select button was clicked. :,ROI選択ボタンが押されました
+30,[UI Draw Object] The Crop button was pushed. :,クロップボタンが押されました
+31,[UI Draw Object] The Mask button was pushed. :,マスクボタンが押されました
+32,[UI Draw Object] The Cancel button was pushed in the Mask mode. :,マスクキャンセルボタンが押されました
+33,Examflow : facade.ModifyExamRejectInfo :,写損ボタンが押されました/写損解除ボタンが押されました
+34,[UI Image Proc] The Reset button was pushed. :,リセットボタンが押されました
+35,ExamMgr[PendingExam],検査保留ボタンが押されました
+36,Examflow : EndExamClick() :,検査終了ボタンが押されました
+37,[UI Image Proc] EXAM StaticCond.tone_densShift_index = 1 :,輝度UPボタンが押されました
+38,[UI Image Proc] EXAM StaticCond.tone_densShift_index = 0 :,輝度DOWNボタンが押されました
+39,[UI Image Proc] EXAM StaticCond.tone_contrastShift_index = 1 :,コントラストUPボタンが押されました
+40,[UI Image Proc] EXAM StaticCond.spEm_contrastBoost_index = 10 :,コントラストDOWNボタンが押されました
+41,[UI Image Proc] EXAM StaticCond.spEm_edgeBoost_index = 11 :,エッジ強調UPボタンが押されました
+42,[UI Image Proc] EXAM StaticCond.spEm_edgeBoost_index = 10 :,エッジ強調DOWNボタンが押されました
+43,[UI Image Proc] EXAM StaticCond.spEm_contrastBoost_index = 11 :,コントラストブーストUPボタンが押されました
+44,[UI Image Proc] EXAM StaticCond.spEm_contrastBoost_index = 10 :,コントラストブーストDOWNボタンが押されました
+45,[UI Image Proc] EXAM StaticCond.spDm_outDensH_index = 8 :,低輝度UPボタンが押されました
+46,[UI Image Proc] EXAM StaticCond.spDm_outDensH_index = 7 :,低輝度DOWNボタンが押されました
+47,[UI Image Proc] EXAM StaticCond.spDm_outDensL_index = 11 :,高輝度UPボタンが押されました
+48,[UI Image Proc] EXAM StaticCond.spDm_outDensL_index = 10 :,高輝度DOWNボタンが押されました
+49,[UI Image Proc] EXAM StaticCond.spDn_index = 2 :,ノイズ低減処理UPボタンが押されました
+50,[UI Image Proc] EXAM StaticCond.spDn_index = 1 :,ノイズ低減処理DOWNボタンが押されました
+51,[UI Image Proc] EXAM StaticCond.GridInfo.GridName,グリッド縞低減処理グリッド名変更ボタンが押されました
+52,[UI Image Proc] EXAM StaticCond.shpAdj_doShpAdj = True :,鮮鋭度低減処理操作ボタンが押されました
+53,[UI Image Proc] EXAM StaticCond.PeripheralMask_doMask = True :,周辺マスクボタンが押されました
+54,[UI Image Proc] EXAM StaticCond.PeripheralMask_doMask = False :,周辺マスクボタンが押されました
+55,[UI Image Proc] EXAM SaveAsDefault :,デフォルトとして保存ボタンが押されました
+56,[UI Draw Object] The Distance button was pushed. :,単純長さ計測ボタンが押されました
+57,[UI Draw Object] The Angle button was pushed. :,単純角度計測ボタンが押されました
+58,[UI Draw Object] The CobbAngle button was pushed. :,複雑な角度計測ボタンが押されました
+59,[UI Draw Object] The HeightDifference button was pushed. :,複雑な長さ計測ボタンが押されました
+60,"[UI] The Revise(SOD, SID) button was pushed. :",補正ボタンが押されました
+61,[UI Draw Object] Measurement Visible = False :,オブジェクト表示切り替えボタンが押されました（表示時）
+62,[UI Draw Object] Measurement Visible = True :,オブジェクト表示切り替えボタンが押されました（非表示時）
+63,[UI Draw Object] Scale Visible = False :,目盛表示ボタンが押されました（表示時）
+64,[UI Draw Object] Scale Visible = True :,目盛表示ボタンが押されました（非表示時）
+65,[UI Draw Object] The NewFreeAnnotation button was pushed. :,追加/編集ボタンが押されました
+66,[UI Draw Object] The FreeAnnotation FontSize Up button was pushed. :,拡大ボタンが押されました
+67,[UI Draw Object] The FreeAnnotation FontSize Down button was pushed. :,縮小ボタンが押されました
+68,[UI Draw Object] The FreeAnnotation Delete button was pushed :,削除ボタンが押されました
+69,[UI Draw Object] FreeAnnotation Create :,配置と追加ボタンが押されました
+70,[UI Draw Object] FreeAnnotation Create :,配置と変更ボタンが押されました
+71,[UI Draw Object] FreeAnnotation Create :,配置のみボタンが押されました
+72,Workflow : mwc_AddFreeAnnotationCancel :,キャンセルボタンが押されました
+73,Workflow : shutDownSystem() :,シャットダウンボタンが押されました
+74,Workflow : Shutdown() :,復帰モードボタンが押されました
+75,Workflow : mwc_RejectReasonWindowOKClick :,OKボタンが押されました
+76,Workflow : mwc_RejectReasonWindowCancelClick :,キャンセルボタンが押されました
+77,Workflow : mwc_RejectReasonWindowOKClick :,OKボタンが押されました
+78,Workflow : mwc_RejectReasonWindowCancelClick :,キャンセルボタンが押されました

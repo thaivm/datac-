@@ -1,0 +1,129 @@
+﻿<Window x:Class="LogViewer.View.EditFilterSettingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Service="clr-namespace:LogViewer.Service"
+        Service:DialogService.IsRegisteredView="True"
+        xmlns:mvvm="clr-namespace:LogViewer.MVVMHelper"
+        xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
+        Title="{Binding Title}" mc:Ignorable="d" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:properties="clr-namespace:LogViewer.Properties"
+        Width="400"
+        SizeToContent="Height" 
+        ResizeMode="NoResize" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" Icon="/LogViewer;component/Images/LV.png">
+    <Window.Resources>
+        <mvvm:TranslateConverter x:Key="TranslateConverter" />
+        <mvvm:CommandReference x:Key="OkCommandReference" Command="{Binding OkCommand}" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{StaticResource OkCommandReference}" />
+    </Window.InputBindings>
+    <Grid Height="470">
+        <StackPanel Margin="5">
+            <toolkit:DataGrid Name="dtgFilterList" CanUserAddRows="False"
+                              AutoGenerateColumns="False" IsReadOnly="True"
+                              Height="200" ItemsSource="{Binding ItemSettingList}" 
+                              mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedCandidate, Mode=TwoWay}" PreviewKeyDown="DataGrid_KeyDown" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False">
+                <mvvm:DataPiping.DataPipes>
+                    <mvvm:DataPipeCollection>
+                        <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                         Target="{Binding Path=SelectedItems, Mode=OneWayToSource}"/>
+                    </mvvm:DataPipeCollection>
+                </mvvm:DataPiping.DataPipes>
+                <toolkit:DataGrid.Columns>
+                    <toolkit:DataGridTextColumn Header="{x:Static properties:Resources.Name}" Width="2*" Binding="{Binding Path=Name}"/>
+                    <toolkit:DataGridTextColumn Header="{x:Static properties:Resources.String}" Width="2*" Binding="{Binding Path=StringValue}">
+                        <toolkit:DataGridTextColumn.CellStyle>
+                            <Style TargetType="toolkit:DataGridCell">
+                                <Setter Property="Foreground" Value="{Binding Path=Foreground}" />
+                                <Setter Property="Background" Value="{Binding Path=Background}" />
+                                <Setter Property="mvvm:FontStyleHelper.FontStyle" Value="{Binding Path=FontStyle}" />
+                            </Style>
+                        </toolkit:DataGridTextColumn.CellStyle>
+                    </toolkit:DataGridTextColumn>
+                    <toolkit:DataGridTextColumn Header="{x:Static properties:Resources.Item}" Width="*" Binding="{Binding Path=LogItem, Converter={StaticResource TranslateConverter}}"/>
+                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Enable}" Width="*">
+                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                    </toolkit:DataGridTemplateColumn>
+                </toolkit:DataGrid.Columns>
+                <toolkit:DataGrid.RowStyle>
+                    <Style TargetType="{x:Type toolkit:DataGridRow}">
+                        <EventSetter Event="MouseDoubleClick"
+                            Handler="OnDatagridRowMouseDoubleClick" />
+                    </Style>
+                </toolkit:DataGrid.RowStyle>
+            </toolkit:DataGrid>
+            
+            <WrapPanel HorizontalAlignment="Center" Margin="5">
+                <Button Content="{x:Static properties:Resources.Add}" Width="50" Margin="5" Command="{Binding AddItemSettingCommand}" />
+                <Button Content="{x:Static properties:Resources.Overwrite}" Width="80" Margin="5" Command="{Binding OverwriteItemSettingCommand}" />
+                <Button Content="{x:Static properties:Resources.Delete}" Width="50" Margin="5" Command="{Binding DeleteItemSettingCommand}" />
+            </WrapPanel>
+            <AdornerDecorator>
+            <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Stretch">
+                <StackPanel HorizontalAlignment="Center" Margin="5">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Style.Triggers>
+                                    <Trigger Property="Validation.HasError" Value="true">
+                                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                                        <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type ToolTip}">
+                                <Setter Property="Foreground" Value="Red" />
+                            </Style>
+                        </Grid.Resources>
+                        <Label Content="{x:Static properties:Resources.FilterNameColon}" HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0" Margin="0,0,0,5"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,0,5" Text="{Binding Name, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Width="226"/>
+                        <Label Content="{x:Static properties:Resources.FilterStringColon}" HorizontalContentAlignment="Right" Grid.Row="1" Grid.Column="0" Margin="0,0,0,5"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Margin="0,0,0,5" Text="{Binding FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                                 Foreground="{Binding Foreground, Mode=TwoWay}" 
+                                 Background="{Binding Background, Mode=TwoWay}" 
+                                 mvvm:FontStyleHelper.FontStyle="{Binding FontStyle}" Width="226"/>
+                        <Label Content="{x:Static properties:Resources.LogItemColon}" HorizontalContentAlignment="Right" Grid.Row="2" Grid.Column="0" Margin="0,0,0,5"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,5" 
+                                  ItemsSource="{Binding AllLogItems}"
+                                  SelectedValue="{Binding LogItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="Display"
+                                  SelectedValuePath="Value"
+                                  >
+                        </ComboBox>
+                    </Grid>
+                    <StackPanel Margin="5" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                        <Button Width="90" Margin="5" Command="{Binding EditForeGroundCommand}">
+                            <TextBlock Text="{x:Static properties:Resources.ForeGroundColor}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </Button>
+                        <Button Width="90" Margin="5" Command="{Binding EditBackGroundCommand}">
+                            <TextBlock Text="{x:Static properties:Resources.BackGroundColor}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </Button>
+                        <Button Content="{x:Static properties:Resources.FontStyle}" Command="{Binding EditFontStyleCommand}" Width="90" Margin="5"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            </AdornerDecorator>
+            <WrapPanel HorizontalAlignment="Center">
+                <Button Content="{x:Static properties:Resources.OK}" Margin="5" Width="50" Command="{Binding OkCommand}" />
+                <Button Content="{x:Static properties:Resources.Apply}"  Margin="5"  Width="50" Command="{Binding ApplyCommand}"/>
+                <Button Content="{x:Static properties:Resources.Cancel}"  Margin="5" Width="50" IsCancel="True" Command="{Binding CloseCommand}"/>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Window>

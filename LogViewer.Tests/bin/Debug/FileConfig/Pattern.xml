@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<PatternAnalyze>
+	<Content ID="1" Name="Workflow Pattern" Enable="True" >
+		<RootItem Time="1000" TimeUnit="s">Workflow</RootItem>
+		<Items>
+			<Item>UseOverwrap</Item>
+			<Item>Exam</Item>
+			<Item>Configflow</Item>
+		</Items>
+	</Content>
+	<Content ID="2" Name="Configflow Pattern" Enable="True">
+		<RootItem Time="1000" TimeUnit="s" Enable="True">Configflow</RootItem>
+		<Items>
+			<Item>GetInstance</Item>
+			<Item>WorkflowLibrary</Item>
+		</Items>
+	</Content>
+		<Content ID="3" Name="ERROR Pattern" Enable="True">
+		<RootItem Time="1000" TimeUnit="s">FPGA_CONFIG</RootItem>
+		<Items>
+			<Item>errorCode</Item>
+		</Items>
+	</Content>
+</PatternAnalyze>

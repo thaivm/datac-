@@ -1,0 +1,4 @@
+1,f1,ssss,Id,#000000,#FFF,Normal:Normal,aaaaa
+2,f2,ssss,Id,#000000,#FFF,Italic:Normal,TRUE
+3,f3,ssss,Id,#000000,#FFF,Normal:Bold,TRUE
+4,f4,ssss,Id,#000000,#FFF,Italic:Bold,FALSE

@@ -1,0 +1,13 @@
+1,Bookmark,true
+2,Line,true
+3,Date,true
+4,Time,true
+5,Type,true
+6,Mode,false
+7,HostName,false
+8,ThreadId,false
+9,Id,false
+10,Content,true
+11,AdditionalInfo,false
+12,PersonalInfo,false
+13,Comment,true

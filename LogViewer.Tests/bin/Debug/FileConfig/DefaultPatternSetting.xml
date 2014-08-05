@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<PatternAnalyze>
+<Content ID="0" Name="Workflow_Start" Enable="True">
+	<RootItem Time="100" TimeUnit="s">Workflow_Start</RootItem>
+	<Items>
+		<Item>SensorStatus</Item>
+		<Item>Workflow_Start</Item>
+	</Items></Content>
+<Content ID="1" Name="SensorStatus" Enable="True">
+	<RootItem Time="100" TimeUnit="s">SensorStatus</RootItem>
+	<Items>
+		<Item>GetSensorCatalogInfo</Item>
+	</Items>
+</Content>
+</PatternAnalyze>

@@ -1,0 +1,14 @@
+﻿<Window x:Class="LogViewer.View.ExportFileNameDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:properties="clr-namespace:LogViewer.Properties"
+        Title="{Binding Caption}" Height="152" Width="430" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" 
+        ShowInTaskbar="False" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid Height="121" Width="419">
+        <TextBox Height="23" Margin="24,47,147,0" Name="FileNameTxt" VerticalAlignment="Top" Text="{Binding FileName,Mode= TwoWay}"/>
+        <Button Content="{x:Static properties:Resources.OK}" Height="23" HorizontalAlignment="Left" Margin="114,85,0,0" VerticalAlignment="Top" Width="75" Name="btnOK" Command="{Binding OkCommand}" Click="btnOK_Click" />
+        <Label Content="{Binding Extension}" Height="28" HorizontalAlignment="Left" Margin="271,45,0,0" VerticalAlignment="Top" />
+        <TextBlock Text="{Binding Directory}" TextWrapping="Wrap" Height="28" HorizontalAlignment="Left" Margin="24,13,0,0" VerticalAlignment="Top" />
+        <Button Content="{x:Static properties:Resources.Cancel}" Height="23" HorizontalAlignment="Right" Margin="0,86,138,0" Name="btnCancel" VerticalAlignment="Top" IsCancel="True" Width="75" />
+    </Grid>
+</Window>

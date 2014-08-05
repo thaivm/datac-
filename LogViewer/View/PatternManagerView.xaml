@@ -1,0 +1,61 @@
+﻿<Window x:Class="LogViewer.View.PatternManagerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
+        xmlns:Service="clr-namespace:LogViewer.Service"
+        Service:DialogService.IsRegisteredView="True"
+        xmlns:mvvm="clr-namespace:LogViewer.MVVMHelper"
+        xmlns:properties="clr-namespace:LogViewer.Properties"
+        Title="{Binding Title}"  mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        SizeToContent="Height" ResizeMode="NoResize" WindowStyle="SingleBorderWindow" 
+        Width="400"
+        WindowStartupLocation="CenterOwner" Icon="/LogViewer;component/Images/pattern.png">
+    <Window.Resources>
+        <mvvm:CommandReference x:Key="OkCommandReference" Command="{Binding OkCommand}" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{StaticResource OkCommandReference}" />
+    </Window.InputBindings>
+    <Grid>
+        <StackPanel Margin="5">
+            <toolkit:DataGrid PreviewKeyDown="DataGrid_KeyDown" EnableColumnVirtualization="False" CanUserAddRows="False"
+                              IsReadOnly="True"
+                          AutoGenerateColumns="False" Height="200" ItemsSource="{Binding ItemSettingList}" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False">
+                <mvvm:DataPiping.DataPipes>
+                    <mvvm:DataPipeCollection>
+                        <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                         Target="{Binding Path=SelectedItems, Mode=OneWayToSource}"/>
+                    </mvvm:DataPipeCollection>
+                </mvvm:DataPiping.DataPipes>
+                <toolkit:DataGrid.Columns>
+                    <toolkit:DataGridTextColumn Header="{x:Static properties:Resources.Name}" Width="*" Binding="{Binding Path=Name}"/>
+                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Enable}">
+                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                    </toolkit:DataGridTemplateColumn>
+                </toolkit:DataGrid.Columns>
+            </toolkit:DataGrid>
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" />
+            <WrapPanel HorizontalAlignment="Center" Margin="5">
+                <Button Content="{x:Static properties:Resources.Add}" 
+                        Width="80" Margin="5" Command="{Binding AddItemSettingCommand}"/>
+                <Button Content="{x:Static properties:Resources.Edit}" 
+                        Width="80" Margin="5" Command="{Binding EditItemSettingCommand}" />
+                <Button Content="{x:Static properties:Resources.Delete}" 
+                        Width="80" Margin="5" Command="{Binding DeleteItemSettingCommand}" />
+            </WrapPanel>
+            
+            <WrapPanel HorizontalAlignment="Center">
+                <Button Content="{x:Static properties:Resources.OK}" Margin="5" Width="50" Command="{Binding OkCommand}" />
+                <Button Content="{x:Static properties:Resources.Apply}" Margin="5"  Width="50" Command="{Binding ApplyCommand}"/>
+                <Button Content="{x:Static properties:Resources.Cancel}" Margin="5" Width="50" 
+                        IsCancel="True"
+                        Command="{Binding CloseCommand}"/>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Window>

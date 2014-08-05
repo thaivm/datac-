@@ -1,0 +1,63 @@
+--------[counter parameter]--------
+startCount : 539
+staticImageShootCount :716
+totalTurnOnTime :10320078
+sensorTurnOn :202967
+-----------------------------------
+---------[saved parameter]---------
+Wired MacAddress:88-87-17-3a-13-37
+SensorSerialNo:0x20000022
+Wired IP:192.168.100.254
+Wired Mask:255.255.255.0
+Wired Gateway:0.0.0.0
+Wireless IP:192.168.100.14
+Wireless Mask:255.255.255.0
+Wireless Gateway:0.0.0.0
+PC IP:192.168.100.10
+X-IF IP:192.168.100.96
+WirelessChannel(2.4G):0,(5G):255
+Wireless PSK:SPg>C@@g>Td
+Wireless SSID:PN[\[
+WirelessChannelRange:0x0002
+PowerTime:0[msec]
+ReadyTime:600000[msec]
+Sleep2 ready for 1sec time:10000[msec]
+Sleep2 ready for 3sec time:30000[msec]
+Sleep2 ready for variable time:10000[msec]
+PreDelayTime:100[msec]
+staticImageShootCount:716
+startCount:539
+totalTurnOnTime:10320078[sec]
+sensorTurnOn:202967[sec]
+CheckInSaveMode:Save
+cyclic noise flag:1
+cyclic noise cyc time:100[msec]
+this is test string
+-----------[message Log]-----------
+5:04.841][Mod=107]:Led Link:ON,Priority:1000[msec]
+[][]:   
+[2013/08/20 14:45:04.841][Mod=100]:EVENT_GOTO_INITIALIZE(fsmProc NULL)
+[2013/08/20 14:45:04.841][Mod=100]:exit status CheckIn
+[2013/08/20 14:45:04.842][Mod=107]:Led Ready:OFF,Priority:-1[msec]
+[2013/08/20 14:45:04.842][Mod=102]:StateNotifySet. systemState:0x10
+[2013/08/20 14:45:04.842][Mod=100]:Status = INITIALIZE
+[2013/08/20 14:45:04.842][Mod=100]:entry status Initialize
+[2013/08/20 14:45:04.842][Mod=108]:SwMgr:start.
+[2013/08/20 14:45:04.842][Mod=105]:TempMgr:Stop.
+[2013/08/20 14:45:04.903][Mod=107]:Led Link:OFF,Priority:-1[msec]
+[2013/08/20 14:45:04.903][Mod=110]:wlan network getstatus complete
+[2013/08/20 14:45:04.904][Mod=107]:Led Link:OFF,Priority:-1[msec]
+
+[2013/08/20 14:45:04.905][Mod=110]:wlan network leave complete
+[2013/08/20 14:45:05.006][Mod=110]:wlan network clear complete
+[2013/08/20 14:45:05.006][Mod=110]:wlan network country complete
+[2013/08/20 14:45:05.006][Mod=110]:wlan network PSave complete
+[2013/08/20 14:45:05.007][Mod=110]:wlan network wireless complete
+
+[2013/08/20 14:45:06.373][Mod=110]:wlan network security complete
+[2013/08/20 14:45:06.374][Mod=102]:ferry client:Socket(13):socket halt
+[2013/08/20 14:45:06.374][Mod=102]:ferry client disconnect
+[2013/08/20 14:45:06.374][Mod=110]:wlan network chwidth complete
+[2013/08/20 14:45:06.374][Mod=110]:wlan network htmode complete
+[2013/08/20 14:45:07.730][Mod=110]:wlan network join complete
+[2013/08/20 14:45:07.731][Mod=110]:wlan network curchan complete ch:5

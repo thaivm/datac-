@@ -1,0 +1,738 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>Additional Info</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ClassName" xml:space="preserve">
+    <value>Class Name</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="ErrorCode" xml:space="preserve">
+    <value>Error Code</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Error Message</value>
+  </data>
+  <data name="ErrorRecipe" xml:space="preserve">
+    <value>Error Recipe</value>
+  </data>
+  <data name="FILE_LOG_LOAD_CAPTION" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="FILE_LOG_LOAD_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}.</value>
+  </data>
+  <data name="h" xml:space="preserve">
+    <value>h</value>
+  </data>
+  <data name="HostName" xml:space="preserve">
+    <value>Host Name</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Log Id</value>
+  </data>
+  <data name="InputKeywordColon" xml:space="preserve">
+    <value>Input Keyword:</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Line </value>
+  </data>
+  <data name="Loading_Summary" xml:space="preserve">
+    <value>Please wait a moment...</value>
+  </data>
+  <data name="Loading_Window_Title" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="LogItemColon" xml:space="preserve">
+    <value>Log Item:</value>
+  </data>
+  <data name="LogKindTarget_CCS" xml:space="preserve">
+    <value>CCS</value>
+  </data>
+  <data name="LogKindTarget_CCS_CXDI" xml:space="preserve">
+    <value>CCS and CXDI</value>
+  </data>
+  <data name="LogKindTarget_CXDI" xml:space="preserve">
+    <value>CXDI</value>
+  </data>
+  <data name="LogTypeColon" xml:space="preserve">
+    <value>Log Type:</value>
+  </data>
+  <data name="m" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="MEMO_EXPORT_CAPTION" xml:space="preserve">
+    <value>Export Memo...</value>
+  </data>
+  <data name="MEMO_EXPORT_TEXT_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when writing to file: {0}.</value>
+  </data>
+  <data name="NO_RECORD_EXPORTED" xml:space="preserve">
+    <value>No records exported</value>
+  </data>
+  <data name="MEMO_EXPORT_TEXT_SUCCESS" xml:space="preserve">
+    <value>Export Successfully</value>
+  </data>
+  <data name="MEMO_IMPORT_CAPTION" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="MEMO_IMPORT_TEXT_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}.</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Module" xml:space="preserve">
+    <value>Module</value>
+  </data>
+  <data name="ms" xml:space="preserve">
+    <value>ms</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Personal Info</value>
+  </data>
+  <data name="ResultColon" xml:space="preserve">
+    <value>Result:</value>
+  </data>
+  <data name="RootKeywordColon" xml:space="preserve">
+    <value>Root Keyword:</value>
+  </data>
+  <data name="s" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="ThreadId" xml:space="preserve">
+    <value>Thread ID</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TimeConditionColon" xml:space="preserve">
+    <value>Time Condition:</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Log Type</value>
+  </data>
+  <data name="UserAction" xml:space="preserve">
+    <value>User Action</value>
+  </data>
+  <data name="MessageConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete?</value>
+  </data>
+  <data name="MessageFileAlreadyLoad" xml:space="preserve">
+    <value>File already loaded.</value>
+  </data>
+  <data name="PleaseInputAValidDecimalNumberOrAValidFraction" xml:space="preserve">
+    <value>Please input a valid number or fraction</value>
+  </data>
+  <data name="FILE_LOG_LOAD_INVALID_EXTENSION" xml:space="preserve">
+    <value>Invalid extension</value>
+  </data>
+  <data name="PleaseInputNumberValueGreaterOrEqual0" xml:space="preserve">
+    <value>Please input number greater or equal 0</value>
+  </data>
+  <data name="MEMO_EXPORT_NO_RECORD" xml:space="preserve">
+    <value>No log record to export.</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="MEMO_EXPORT_EXIST_FILE_CAPTION" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="MEMO_EXPORT_EXIST_FILE_TEXT" xml:space="preserve">
+    <value>File already exists. Do you want to overwrite?</value>
+  </data>
+  <data name="DATA_VALUE_NOT_SUPPORTED_EXCEPTION_MESSAGE" xml:space="preserve">
+    <value>Data value is not supported</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Date time '</value>
+  </data>
+  <data name="DuplicateKeywordErrorMessage" xml:space="preserve">
+    <value>Keyword is duplicate.</value>
+  </data>
+  <data name="DuplicateNameErrorMessage" xml:space="preserve">
+    <value>Name is duplicate.</value>
+  </data>
+  <data name="FIND_OWNER_WINDOW_ARGUMENT_EXCEPTION" xml:space="preserve">
+    <value>Viewmodel is not referenced by any registered View.</value>
+  </data>
+  <data name="FIND_OWNER_WINDOW_INVALID_OPERATION_EXCEPTION" xml:space="preserve">
+    <value>View is not contained within a Window.</value>
+  </data>
+  <data name="LogItemNotEmptyErrorMessage" xml:space="preserve">
+    <value>Log item must not be empty.</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max: </value>
+  </data>
+  <data name="MaximumFilterItemErrorMessage" xml:space="preserve">
+    <value>Maximum filter item.</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Latest: </value>
+  </data>
+  <data name="NotDisplayLogViewMessage" xml:space="preserve">
+    <value> is not displayed in log view.</value>
+  </data>
+  <data name="NotDisplayLogViewWithDateTimeMessage" xml:space="preserve">
+    <value>' is not displayed in log view.</value>
+  </data>
+  <data name="NOT_DETECT_FORMAT_FILE_EXCEPTION" xml:space="preserve">
+    <value>Cannot detect file format.</value>
+  </data>
+  <data name="NOT_READ_FILE_EXCEPTION" xml:space="preserve">
+    <value>Cannot read file:</value>
+  </data>
+  <data name="Old" xml:space="preserve">
+    <value>Earliest: </value>
+  </data>
+  <data name="READ_DISPLAY_SETTING_FILE_NOT_FOUND_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}</value>
+  </data>
+  <data name="SelectLogKindErrorMessage" xml:space="preserve">
+    <value>Please select at least one element for each log type</value>
+  </data>
+  <data name="FirstYToGreaterThanFromValueErrorMessage" xml:space="preserve">
+    <value>1st Y Range: "To" value must be greater than "From" value</value>
+  </data>
+  <data name="ValidateEmptyNameMessage" xml:space="preserve">
+    <value>Name must not be empty</value>
+  </data>
+  <data name="ValidateEmptyRootKeyMessage" xml:space="preserve">
+    <value>Root Keyword must not be empty</value>
+  </data>
+  <data name="ValidateEmptyStringListMessage" xml:space="preserve">
+    <value>List of String must not be empty</value>
+  </data>
+  <data name="ValidateEmptyStringMessage" xml:space="preserve">
+    <value>String must not be empty</value>
+  </data>
+  <data name="ValidateEmptyStringObjectMessage" xml:space="preserve">
+    <value>Object must not be empty</value>
+  </data>
+  <data name="ValidateEmptyStringValueMessage" xml:space="preserve">
+    <value>String must not be empty</value>
+  </data>
+  <data name="ValidateLengthKeywordMessage" xml:space="preserve">
+    <value>Maximum length of Keyword is 50 characters</value>
+  </data>
+  <data name="ValidateLengthNameMessage" xml:space="preserve">
+    <value>Maximum length of Name is 50 characters</value>
+  </data>
+  <data name="ValidateLengthRootKeyMessage" xml:space="preserve">
+    <value>Maximum length of Root Keyword is 50 characters</value>
+  </data>
+  <data name="ValidateLengthStringValueMessage" xml:space="preserve">
+    <value>Maximum length of String is 50 characters</value>
+  </data>
+  <data name="ValidateMaximumEnableParameter" xml:space="preserve">
+    <value>Can enable upto 2 parameters</value>
+  </data>
+  <data name="ValidateMaxKeywordCountMessage" xml:space="preserve">
+    <value>Can filter upto 5 keywords</value>
+  </data>
+  <data name="ValidateMaxRegisterItemMessage" xml:space="preserve">
+    <value>Can register upto 10 items</value>
+  </data>
+  <data name="ValidateUniqueNameMessage" xml:space="preserve">
+    <value>Name must be unique</value>
+  </data>
+  <data name="ValidateUniqueStringValueMessage" xml:space="preserve">
+    <value>String must be unique</value>
+  </data>
+  <data name="ConfirmMergeFileCaption" xml:space="preserve">
+    <value>Open new file</value>
+  </data>
+  <data name="ConfirmMergeFileMessage" xml:space="preserve">
+    <value>Do you want to merge the new file to the current file(s)?</value>
+  </data>
+  <data name="BackGroundColor" xml:space="preserve">
+    <value>BackGround Color</value>
+  </data>
+  <data name="Bookmarks" xml:space="preserve">
+    <value>Bookmarks</value>
+  </data>
+  <data name="CCS" xml:space="preserve">
+    <value>CCS</value>
+  </data>
+  <data name="CCSLogFile" xml:space="preserve">
+    <value>_CCS Log File</value>
+  </data>
+  <data name="CCSMemoLogFile" xml:space="preserve">
+    <value>_CCS Memo Log File</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="_ClearAll" xml:space="preserve">
+    <value>_Clear All</value>
+  </data>
+  <data name="_ClearAnalyzedResult" xml:space="preserve">
+    <value>_Clear Analyzed Result</value>
+  </data>
+  <data name="Colon" xml:space="preserve">
+    <value>:</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CXDI" xml:space="preserve">
+    <value>CXDI</value>
+  </data>
+  <data name="CXDILogFile" xml:space="preserve">
+    <value>_CXDI Log File</value>
+  </data>
+  <data name="CXDIMemoLogFile" xml:space="preserve">
+    <value>_CXDI Memo Log File</value>
+  </data>
+  <data name="DateColon" xml:space="preserve">
+    <value>Date:</value>
+  </data>
+  <data name="Elements" xml:space="preserve">
+    <value>Elements</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="_Export" xml:space="preserve">
+    <value>_Export</value>
+  </data>
+  <data name="_ExportEtc" xml:space="preserve">
+    <value>_Export...</value>
+  </data>
+  <data name="_File" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="FilterColon" xml:space="preserve">
+    <value>Filter:</value>
+  </data>
+  <data name="FilterNameColon" xml:space="preserve">
+    <value>Filter Name:</value>
+  </data>
+  <data name="FilterSetting" xml:space="preserve">
+    <value>Filter Setting</value>
+  </data>
+  <data name="FilterStringColon" xml:space="preserve">
+    <value>Filter String:</value>
+  </data>
+  <data name="FontStyle" xml:space="preserve">
+    <value>Font Style</value>
+  </data>
+  <data name="ForeGroundColor" xml:space="preserve">
+    <value>ForeGround Color</value>
+  </data>
+  <data name="Graph" xml:space="preserve">
+    <value>Graph</value>
+  </data>
+  <data name="GraphParamSetting" xml:space="preserve">
+    <value>Graph Param Setting</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="JumpTo" xml:space="preserve">
+    <value>Jump to</value>
+  </data>
+  <data name="KeywordColon" xml:space="preserve">
+    <value>Keyword:</value>
+  </data>
+  <data name="KeywordCount" xml:space="preserve">
+    <value>Keyword Count</value>
+  </data>
+  <data name="KeywordCountSetting" xml:space="preserve">
+    <value>Keyword Count Setting</value>
+  </data>
+  <data name="LineNumber" xml:space="preserve">
+    <value>Line Number</value>
+  </data>
+  <data name="LOG" xml:space="preserve">
+    <value>log</value>
+  </data>
+  <data name="LogDisplaySetting" xml:space="preserve">
+    <value>Log Display Setting</value>
+  </data>
+  <data name="LogItem" xml:space="preserve">
+    <value>Log Item</value>
+  </data>
+  <data name="LogViewer" xml:space="preserve">
+    <value>Log Viewer</value>
+  </data>
+  <data name="MAXIMUM_DATE_EXCEPTION" xml:space="preserve">
+    <value>Maximum date must be greater than Minimum date</value>
+  </data>
+  <data name="MoveToLine" xml:space="preserve">
+    <value>Move To Line</value>
+  </data>
+  <data name="MoveToTime" xml:space="preserve">
+    <value>Move To Time</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>Object</value>
+  </data>
+  <data name="_OpenEtc" xml:space="preserve">
+    <value>_Open...</value>
+  </data>
+  <data name="_Option" xml:space="preserve">
+    <value>_Option</value>
+  </data>
+  <data name="Overwrite" xml:space="preserve">
+    <value>Overwrite</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="PatternAnalyzed" xml:space="preserve">
+    <value>Pattern Analyzed</value>
+  </data>
+  <data name="ProcessTimeColon" xml:space="preserve">
+    <value>Process Time:</value>
+  </data>
+  <data name="_Quit" xml:space="preserve">
+    <value>_Quit</value>
+  </data>
+  <data name="_Range" xml:space="preserve">
+    <value>_Range</value>
+  </data>
+  <data name="_ResetBookmarks" xml:space="preserve">
+    <value>_Reset Bookmarks</value>
+  </data>
+  <data name="_ResetColorFilters" xml:space="preserve">
+    <value>_Reset Color Filters</value>
+  </data>
+  <data name="_ResetComments" xml:space="preserve">
+    <value>_Reset Comments</value>
+  </data>
+  <data name="_ResetFilters" xml:space="preserve">
+    <value>_Reset Filters</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="_SetLogParameter" xml:space="preserve">
+    <value>_Set Log Parameter</value>
+  </data>
+  <data name="_SetParameter" xml:space="preserve">
+    <value>_Set parameter</value>
+  </data>
+  <data name="ShowGrid" xml:space="preserve">
+    <value>Show Grid</value>
+  </data>
+  <data name="Slash" xml:space="preserve">
+    <value>/</value>
+  </data>
+  <data name="TimeColon" xml:space="preserve">
+    <value>Time:</value>
+  </data>
+  <data name="ToCSV" xml:space="preserve">
+    <value>_To CSV</value>
+  </data>
+  <data name="ToImage" xml:space="preserve">
+    <value>_To image</value>
+  </data>
+  <data name="TXT" xml:space="preserve">
+    <value>txt</value>
+  </data>
+  <data name="Visible" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="XML" xml:space="preserve">
+    <value>xml</value>
+  </data>
+  <data name="_Edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="_Search" xml:space="preserve">
+    <value>_Search</value>
+  </data>
+  <data name="_SetKeyword" xml:space="preserve">
+    <value>_Set Keyword</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="CounterParameter" xml:space="preserve">
+    <value>Counter Parameters</value>
+  </data>
+  <data name="ErrorAction" xml:space="preserve">
+    <value>Error Action</value>
+  </data>
+  <data name="Firmware" xml:space="preserve">
+    <value>Firmware</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="SaveParameter" xml:space="preserve">
+    <value>Saved Parameters</value>
+  </data>
+  <data name="LogId" xml:space="preserve">
+    <value>Log Id</value>
+  </data>
+  <data name="LogType" xml:space="preserve">
+    <value>Log Type</value>
+  </data>
+  <data name="READ_KEYWORD_COUNT_SETTING_FILE_NOT_FOUND_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}</value>
+  </data>
+  <data name="READ_KEYWORD_COUNT_SETTING_OTHER_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}</value>
+  </data>
+  <data name="READ_PATTERN_SETTING_FILE_NOT_FOUND_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}</value>
+  </data>
+  <data name="READ_PATTERN_SETTING_OTHER_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}</value>
+  </data>
+  <data name="READ_FILTER_SETTING_FILE_NOT_FOUND_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}</value>
+  </data>
+  <data name="READ_FILTER_SETTING_OTHER_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when reading file: {0}</value>
+  </data>
+  <data name="FollowMode" xml:space="preserve">
+    <value>Follow Mode</value>
+  </data>
+  <data name="TitleCCSFilterSetting" xml:space="preserve">
+    <value>CCS Filter Settting</value>
+  </data>
+  <data name="TitleCCSKeywordCountSetting" xml:space="preserve">
+    <value>CCS Keyword Count Setting</value>
+  </data>
+  <data name="TitleCXDIFilterSetting" xml:space="preserve">
+    <value>CXDI Filter Setting</value>
+  </data>
+  <data name="TitleCXDIKeywordCountSetting" xml:space="preserve">
+    <value>CXDI Keyword Count Setting</value>
+  </data>
+  <data name="DuplicateKeywordWithLogItemErrorMessage" xml:space="preserve">
+    <value>Keyword and Log item are duplicate</value>
+  </data>
+  <data name="TitleCCSPatternManager" xml:space="preserve">
+    <value>CCS Pattern Manager</value>
+  </data>
+  <data name="TitleCXDIPatternManager" xml:space="preserve">
+    <value>CXDI Pattern Manager</value>
+  </data>
+  <data name="Exporting3Dot" xml:space="preserve">
+    <value>Exporting...</value>
+  </data>
+  <data name="ValidateLengthStringObjectMessage" xml:space="preserve">
+    <value>Maximum length of Object is 50 characters</value>
+  </data>
+  <data name="Bookmark" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="PleaseInputFilterString" xml:space="preserve">
+    <value>Please input filter string</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Merge" xml:space="preserve">
+    <value>Merge</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="GRAPH_EXPORT_NO_DATA" xml:space="preserve">
+    <value>No data to export.</value>
+  </data>
+  <data name="DateTimeToGreaterThanFromValueErrorMessage" xml:space="preserve">
+    <value>X Range: "To" value must be greater than "From" value</value>
+  </data>
+  <data name="SecondYToGreaterThanFromValueErrorMessage" xml:space="preserve">
+    <value>2nd Y Range: "To" value must be greater than "From" value</value>
+  </data>
+  <data name="FILE_WRITE_EXCEPTION" xml:space="preserve">
+    <value>Error occurred when writing to file: {0}.</value>
+  </data>
+  <data name="AddPatternItem" xml:space="preserve">
+    <value>Add Pattern Item</value>
+  </data>
+  <data name="EditPatternItem" xml:space="preserve">
+    <value>Edit Pattern</value>
+  </data>
+  <data name="CAN_NOT_CREATE_FILE" xml:space="preserve">
+    <value>Cannot create file.</value>
+  </data>
+  <data name="DATE_DISPLAY_TEXT" xml:space="preserve">
+    <value>Date must not be empty</value>
+  </data>
+  <data name="EXPORT_FAILURE" xml:space="preserve">
+    <value>The process cannot access the file {0} because it is being used by another process. Please change the file name for export.</value>
+  </data>
+</root>

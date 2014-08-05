@@ -1,0 +1,11 @@
+﻿<Window x:Class="LogViewer.View.LoadingDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding LoadingTitle}" SizeToContent="Height" Width="300"
+        WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <DockPanel>
+        <Label Content="{Binding LoadingText}" DockPanel.Dock="Top" HorizontalAlignment="Center" />
+        <ProgressBar IsIndeterminate="True" Height="20" />
+    </DockPanel>
+</Window>

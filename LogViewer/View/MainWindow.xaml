@@ -1,0 +1,1518 @@
+﻿<Window x:Class="LogViewer.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:view="clr-namespace:LogViewer.View"
+        xmlns:mvvm="clr-namespace:LogViewer.MVVMHelper"
+        xmlns:Service="clr-namespace:LogViewer.Service"
+        xmlns:Util="clr-namespace:LogViewer.Util"
+        xmlns:properties="clr-namespace:LogViewer.Properties"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Service:DialogService.IsRegisteredView="True"
+        Title="{x:Static properties:Resources.LogViewer}" FontSize="11" 
+        xmlns:my="clr-namespace:System;assembly=mscorlib" 
+        mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
+        Width="1200" Height="720" WindowStartupLocation="CenterScreen" Icon="/LogViewer;component/Images/LV.png" WindowState="Maximized">
+    <Window.Resources>
+        <TextBlock Foreground="Red" x:Key="TBCCSToolTip" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
+        <TextBlock Foreground="Red" x:Key="TBCXDIToolTip" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <mvvm:FontSizeConverter x:Key="FontSizeConverter" />
+        <mvvm:CommandReference x:Key="ExpandCommandReference" Command="{Binding ExpandCommand}" />
+        <mvvm:CommandReference x:Key="ShrinkCommandReference" Command="{Binding ShrinkCommand}" />
+        <mvvm:CommandReference x:Key="SearchKeywordCommandReference" Command="{Binding SearchKeywordCommand}" />
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Background" Value="WhiteSmoke" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="Gray" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="LogsMenuButton" TargetType="Button" BasedOn="{StaticResource MenuButton}">
+            <Setter Property="IsEnabled" Value="{Binding HasLogsData}" />
+        </Style>
+        <Style x:Key="MenuToggleButton" TargetType="ToggleButton">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Background" Value="WhiteSmoke" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="Gray" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="LogsNarrowFilterButton" TargetType="ToggleButton" BasedOn="{StaticResource MenuToggleButton}">
+            <Setter Property="IsEnabled" Value="{Binding IsEnableButtonFilter}" />
+        </Style>
+        <Style x:Key="ReadOnlyCellTextBoxStyle" TargetType="{x:Type RichTextBox}">
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="mvvm:RichTextBoxHelper.FilterToShow" 
+                                                Value="{Binding FilterSetting}" />
+            <!--<Setter Property="mvvm:RichTextBoxHelper.ShowPatternColoring" 
+                                                Value="{Binding PatternColor}" />-->
+        </Style>
+        <mvvm:BindingProxy x:Key="MainViewProxy" Data="{Binding}" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="F" Modifiers="Ctrl" Command="{StaticResource SearchKeywordCommandReference}" />
+        <KeyBinding Key="Oemplus" Modifiers="Ctrl" Command="{StaticResource ExpandCommandReference}" />
+        <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="{StaticResource ShrinkCommandReference}" />
+        <MouseBinding Gesture="{x:Static mvvm:MouseWheelGesture.CtrlDown}" Command="{StaticResource ShrinkCommandReference}" />
+        <MouseBinding Gesture="{x:Static mvvm:MouseWheelGesture.CtrlUp}" Command="{StaticResource ExpandCommandReference}" />
+    </Window.InputBindings>
+
+    <!--<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFEF1818">-->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu -->
+        <Menu DockPanel.Dock="Top" Grid.Row="0" Background="White">
+            <MenuItem Header="{x:Static properties:Resources._File}">
+                <MenuItem Header="{x:Static properties:Resources._OpenEtc}" >
+                    <MenuItem Header="{x:Static properties:Resources.CCSLogFile}" Command="{Binding CCSMainVM.LoadLogFileCommand}"/>
+                    <MenuItem Header="{x:Static properties:Resources.CCSMemoLogFile}" Command="{Binding CCSMainVM.LoadMemoLogFileCommand}"/>
+                    <MenuItem Header="{x:Static properties:Resources.CXDILogFile}"  Command="{Binding CXDIMainVM.LoadLogFileCommand}"/>
+                    <MenuItem Header="{x:Static properties:Resources.CXDIMemoLogFile}"  Command="{Binding CXDIMainVM.LoadMemoLogFileCommand}"/>
+                </MenuItem>
+                <MenuItem Header="{x:Static properties:Resources._ExportEtc}" >
+                    <MenuItem Header="{x:Static properties:Resources.CCSMemoLogFile}"  Command="{Binding CCSMainVM.ExportMemoLogFileCommand}"/>
+                    <MenuItem Header="{x:Static properties:Resources.CXDIMemoLogFile}"  Command="{Binding CXDIMainVM.ExportMemoLogFileCommand}"/>
+                </MenuItem>
+                <Util:RecentFileList x:Name="RecentFileList" Util:RecentFileList.RecentFile="{Binding RecentFileAction}" />
+                <MenuItem Header="{x:Static properties:Resources._Quit}" Click="MenuItem_Click" />
+            </MenuItem>
+            <MenuItem Header="{x:Static properties:Resources._Edit}">
+                <MenuItem Header="{x:Static properties:Resources._SetLogParameter}" Command="{Binding SetLogParameterCommand}"/>
+                <MenuItem Header="{x:Static properties:Resources._ResetBookmarks}" Command="{Binding ResetBookmarkCommand}" Click="RefreshAllLogsList"/>
+                <MenuItem Header="{x:Static properties:Resources._ResetComments}" Command="{Binding ResetCommentCommand}" Click="RefreshAllLogsList"/>
+                <MenuItem Header="{x:Static properties:Resources._ResetFilters}" Command="{Binding ResetFilterCommand}"/>
+                <MenuItem Header="{x:Static properties:Resources._ResetColorFilters}" Command="{Binding ClearColorFilterSettingCommand}"/>
+                <MenuItem Header="{x:Static properties:Resources._ClearAnalyzedResult}" Command="{Binding ClearAnalyzeCommand}"/>
+                <MenuItem Header="{x:Static properties:Resources._ClearAll}" Command="{Binding ClearAllCommand}"/>
+            </MenuItem>
+            <MenuItem Header="{x:Static properties:Resources._Option}">
+                <MenuItem Header="{x:Static properties:Resources._Search}" Name="Search" Command="{Binding SearchKeywordCommand}"/>
+            </MenuItem>
+        </Menu>
+        <!-- Menu -->
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <Border DataContext="{Binding CCSMainVM}"
+                BorderBrush="Gainsboro" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0">
+                <Border.Resources>
+                    <mvvm:BindingProxy x:Key="MainProxy" Data="{Binding}" />
+                </Border.Resources>
+                <!--<StackPanel  Name="Left_Panel"  Margin="5,0,0,0" >-->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="90"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <!-- Shortcut left -->
+                    <Grid Name="CCS_Title_Panel" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Name="CCSTitleLabel" Grid.Row="0" Grid.Column="0" Content="CCS" Margin="5,0,0,0" />
+                        <TextBlock 
+                            Foreground="Red" Text="{Binding CurrentLogFileName}" 
+                                   VerticalAlignment="Center" Grid.Column="1" MaxWidth="800" 
+                                   TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis">
+                            <TextBlock.ToolTip>
+                                <TextBlock Text="{Binding CurrentLogFileName}" MaxWidth="400" TextWrapping="Wrap"/>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </Grid>
+                    <!-- Button icon for CCS-->
+                    <WrapPanel Orientation="Horizontal" Style="{StaticResource WrapPanelShortcut}" Grid.Row="1">
+                        <WrapPanel Orientation="Horizontal" Style="{StaticResource WrapPanelShortcut}">
+                            <Button Command="{Binding LoadLogFileCommand}" ToolTip="Open file" Style="{StaticResource MenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/openfile.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ClearAllCommand}" ToolTip="Clear All" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/clearall_e.png">
+                                    </Image>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ClearAnalyzeCommand}" Click="RefreshCCSLogsList" ToolTip="Clear Analyzed Result" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/refresh.png" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ExpandCommand}" ToolTip="Expand" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/add_e.png" ToolTip="Expand" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ShirnkCommand}" ToolTip="Shrink" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/delete_e.png" />
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                        <WrapPanel Orientation="Horizontal" Style="{StaticResource WrapPanelShortcut}">
+                            <Button Command="{Binding GoToTopCommand}" ToolTip="Go to Top" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="/LogViewer;component/Images/gototop_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding GoToBotCommand}" ToolTip="Go to Bottom" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="/LogViewer;component/Images/gotobot_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding JumpToLineCommand}" ToolTip="Move to line" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/gotoline_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding JumpToTimeCommand}" ToolTip="Move to time" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/gotodate_e.png"/>
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                        <WrapPanel Orientation="Horizontal" Style="{StaticResource WrapPanelShortcut}">
+                            <Button Command="{Binding ProcessTimeCommand}" ToolTip="Calculate Process Time" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/time.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ErrorActionCommand}" ToolTip="Error action" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/Error.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding UserActionCommand}" ToolTip="User action" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/user_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding PatternAnalyserCommand}" ToolTip="Pattern Analyzing" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/analyzing_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding CountKeywordCommand}" ToolTip="Count Keyword" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/countkey.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding EditPatternSettingCommand}" ToolTip="Set Pattern" Style="{StaticResource MenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/pattern.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding EditKeywordCountSettingCommand}" ToolTip="Set Keyword" Style="{StaticResource MenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/key.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding EditFilterSettingCommand}" ToolTip="Set Filter" Style="{StaticResource MenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/filter.png"/>
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                    </WrapPanel>
+                    <!-- Filter Zone-->
+                    <WrapPanel Style="{StaticResource WrapPanelFilter}" Grid.Row="2">
+                        <!-- Filter Setting-->
+                        <WrapPanel Margin="5,0,0,0">
+                            <Label Name="FilterCCSLabel" VerticalAlignment="Center" Content="{x:Static properties:Resources.FilterColon}" />
+                            <AdornerDecorator>
+                                <TextBox Name="FilterCCSTextBox" Width="200" VerticalContentAlignment="Center"
+                                     Text="{Binding StringFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                            <Style.Resources>
+                                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                    <VisualBrush.Visual>
+                                                        <Label Content="{x:Static properties:Resources.PleaseInputFilterString}" Foreground="Gray" />
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Style.Resources>
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                                    <Setter Property="Background" Value="White" />
+                                                </Trigger>
+                                                <Trigger Property="Validation.HasError" Value="true">
+                                                    <Setter Property="TextBox.ToolTip" Value="{StaticResource TBCXDIToolTip}" />
+                                                    <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </AdornerDecorator>
+                            <ComboBox Name="ContentCCSComboBox" 
+                                      SelectedValue="{Binding LogItem, Mode=TwoWay,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemsSource="{Binding LogItemList}" 
+                                      DisplayMemberPath="Display"
+                                      SelectedValuePath="Value" VerticalContentAlignment="Center">
+
+                            </ComboBox>
+                            <ToggleButton Name="tbtnCCSNarrowFilterNonColor" IsChecked="{Binding IsOnNarrowNonColorFilter, Mode=TwoWay}"
+                                          Command="{Binding NarrowNonColorFilterCommand}" ToolTip="Refine Filtering" Style="{StaticResource LogsNarrowFilterButton}" Checked="tbtnCCSNarrowFilterNonColor_Checked">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/refinecolor.png"  />
+                                </StackPanel>
+                            </ToggleButton>
+                            <ToggleButton Name="tbtnCCSNarrowFilterColor" IsChecked="{Binding IsOnNarrowColorFilter, Mode=TwoWay}"
+                                Command="{Binding NarrowColorFilterCommand}" ToolTip="Color Filtering" Style="{StaticResource LogsNarrowFilterButton}" Checked="tbtnCCSNarrowFilterColor_Checked">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/filtercolor.png"  />
+                                </StackPanel>
+                            </ToggleButton>
+                        </WrapPanel>
+                        <WrapPanel Margin="5,5,0,0">
+                            <Popup IsOpen="{Binding IsOpenPopup}" StaysOpen="False" AllowsTransparency="True">
+                                <Border Style="{StaticResource BorderColorFilterArena}">
+                                    <StackPanel Orientation="Vertical">
+                                        <Border Style="{StaticResource BorderColorFilterRow}">
+                                            <WrapPanel HorizontalAlignment="Left">
+                                                <Button Style="{StaticResource ButtonCollapseColorFilter}" Content="5" Command="{Binding ClosePopupCommand}"/>
+                                            </WrapPanel>
+                                        </Border>
+
+                                        <Border Style="{StaticResource BorderColorFilterRow}">
+                                            <StackPanel HorizontalAlignment="Center" Margin="5">
+                                                <view:FilterButtonArea ButtonClicked="RefreshCCSLogsList"
+                                                ItemsSourceRemain="{Binding FilterSettingList}"></view:FilterButtonArea>
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource BorderColorFilterRow}">
+                                            <WrapPanel HorizontalAlignment="Center">
+                                                <WrapPanel Style="{StaticResource WrapColorButtonBottom}">
+                                                    <Button Content="{x:Static properties:Resources.SelectAll}" Click="RefreshCCSLogsList" Command="{Binding SelectAllFilterSettingCommand}"></Button>
+                                                    <Button Content="{x:Static properties:Resources.Add}" Command="{Binding EditFilterSettingCommand}"></Button>
+                                                    <Button Content="{x:Static properties:Resources.Clear}" Click="RefreshCCSLogsList" Command="{Binding ClearColorFilterSettingCommand}"></Button>
+                                                </WrapPanel>
+                                            </WrapPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
+                        </WrapPanel>
+                        <WrapPanel Style="{StaticResource WrapColorFilter_NF}">
+                            <Button Style="{StaticResource ButtonCollapseColorFilter}" Content="4" Command="{Binding OpenPopupCommand}"/>
+                            <WrapPanel Style="{StaticResource WrapColorButtonFilter}" Name="CSSColorButtonArenaNF">
+                                <view:FilterButtonArea ButtonClicked="RefreshCCSLogsList" ItemsSourceSummary="{Binding FilterSettingList}"></view:FilterButtonArea>
+                            </WrapPanel>
+                        </WrapPanel>
+                    </WrapPanel>
+                    <!-- Data log for CCS-->
+                    <!-- LoadingRow="DataGrid_LoadingRow" -->
+                    <Grid Visibility="Visible" Grid.Row="3">
+                        <Grid DataContext="{Binding LogsDisplayVM}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <toolkit:DataGrid Name="DataLogCCSDisplay"
+                                              mvvm:DatagridHelper.ClickedRow ="{Binding ClickedRecord, Mode=OneWayToSource}"
+                                              EnableRowVirtualization="True" 
+                                              EnableColumnVirtualization="False" 
+                                              FontSize="{Binding FontOfDataGrid, Converter={StaticResource FontSizeConverter}}" 
+                                              ItemsSource="{Binding BaseRecordVMList, Mode=TwoWay}" 
+                                              AutoGenerateColumns="False" 
+                                              mvvm:DatagridHelper.RecordToShow="{Binding RecordForJump}" 
+                                              mvvm:DatagridHelper.RecordToFollow="{Binding RecordForFollow}"
+                                              mvvm:DatagridHelper.RefreshData="{Binding RefreshData}"
+                                              CanUserAddRows="False" Grid.Row="0"
+                                              MinWidth="430" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeRows="False" 
+                                              AllowDrop="True" PreviewDragOver="OnDragOverCCS" Margin="5,0" PreviewKeyDown="DataLogsDisplay_KeyDown" SelectionChanged="DataLogCCSDisplay_SelectionChanged" Loaded="DataLogCCSDisplay_Loaded">
+                                <toolkit:DataGrid.Resources>
+                                    <mvvm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                    <!--<mvvm:BindingProxy x:Key="MainViewProxy" Data="{Binding}" />-->
+                                    <mvvm:CommandReference x:Key="AddMoreBookmarkReference" Command="{Binding Data.AddMoreBookmark, Source={StaticResource MainProxy}}" />
+                                </toolkit:DataGrid.Resources>
+                                <toolkit:DataGrid.InputBindings>
+                                    <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                </toolkit:DataGrid.InputBindings>
+                                <toolkit:DataGrid.RowStyle>
+                                    <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" 
+                                                    Handler="OnDatagridRowMouseDown" />
+                                    </Style>
+                                </toolkit:DataGrid.RowStyle>
+                                <i:Interaction.Behaviors>
+                                    <mvvm:DataGridDragDropBehavior AllowedEffects="All" Command="{Binding Data.DragDropCommand, Source={StaticResource MainProxy}}"/>
+                                </i:Interaction.Behaviors>
+                                <toolkit:DataGrid.ContextMenu>
+                                    <ContextMenu HorizontalContentAlignment="Center">
+                                        <MenuItem Header="{x:Static properties:Resources.Copy}" Command="{Binding Data.CopyCommand, Source={StaticResource proxy}}"/>
+                                        <CheckBox Content="{x:Static properties:Resources.FollowMode}" IsChecked="{Binding Data.IsOnFollowModeCCS, Source={StaticResource MainViewProxy}}"/>
+                                    </ContextMenu>
+                                </toolkit:DataGrid.ContextMenu>
+                                <mvvm:DataPiping.DataPipes>
+                                    <mvvm:DataPipeCollection>
+                                        <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                                        Target="{Binding Path=SelectedItems, Mode=OneWayToSource}"/>
+                                    </mvvm:DataPipeCollection>
+                                </mvvm:DataPiping.DataPipes>
+                                <toolkit:DataGrid.Columns>
+                                    <toolkit:DataGridTemplateColumn Visibility="{Binding Data.IsDisplayBookmark,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Path=IsBookmarked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Command="{Binding Path=BookmarkCommand}" 
+                                                    CommandParameter="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn >
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Line}" Width="50" MinWidth="50" Visibility="{Binding Data.IsDisplayLine,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Line" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="50"
+                                                             mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Line, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Date}" Width="75" MinWidth="75" Visibility="{Binding Data.IsDisplayDate,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Date" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="75"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Date, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Time}" Width="75" MinWidth="75" Visibility="{Binding Data.IsDisplayTime,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Time" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="75"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Time, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.HostName}" Width="150" MinWidth="150" Visibility="{Binding Data.IsDisplayHostName,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="HostName" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="150"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=HostName, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.ThreadId}" Width="75" MinWidth="75" Visibility="{Binding Data.IsDisplayThreadID,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="ThreadId" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="75"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=ThreadId, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Type}" Width="60" MinWidth="60" Visibility="{Binding Data.IsDisplayType,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="LogType" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="60"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Type, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Id}" Width="100" MinWidth="100" Visibility="{Binding Data.IsDisplayID,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="LogId" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="100"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Id, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Content}" Width="1000" MinWidth="1000" Visibility="{Binding Data.IsDisplayContent,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Content" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="1000"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Content, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.AdditionalInfo}" Width="400" MinWidth="400" Visibility="{Binding Data.IsDisplayAdditionalInfo,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="AdditionalInfo" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="400"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=AdditionalInfo, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.PersonalInfo}" Width="400" MinWidth="400" Visibility="{Binding Data.IsDisplayPersonalInfo,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="PersonalInfo" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="400"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=PersonalInfo, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.ClassName}" Width="400" MinWidth="400" Visibility="{Binding Data.IsDisplayClassName,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="ClassName" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="400"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=ClassName, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Comment}" Width="200" MinWidth="200" Visibility="{Binding Data.IsDisplayComment,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                </toolkit:DataGrid.Columns>
+                            </toolkit:DataGrid>
+                            <!-- Data log for CXDI-->
+                            <!-- Process for CCS and CXDI-->
+                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" Grid.Row="1">
+                                <Label Name="CCSProcessLabel" Content="{x:Static properties:Resources.ProcessTimeColon}"/>
+                                <Label Name="CCSProcessFileLabel" Content="{Binding ProcessTime}" Foreground="Red" />
+                            </WrapPanel>
+                        </Grid>
+                        <!--</StackPanel>-->
+                    </Grid>
+                    <GridSplitter HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="4" ResizeBehavior="PreviousAndNext"
+                        Height="3" Background="#FFBCBCBC"/>
+                    <!-- Tab panel for CXDI-->
+                    <DockPanel Style="{StaticResource DockPanelLogReport}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Margin="5,0,0,0">
+                        <!-- Process for CCS and CXDI-->
+                        <!-- Tab panel for CCS-->
+                        <TabControl Height="Auto" Name="TabControlCCS" Style="{StaticResource TabControlLogReport}" DataContext="{Binding BaseAnalyzeAreaVM}" AllowDrop="False" >
+                            <TabItem IsSelected="{Binding IsShowTabBookmark}" Header="{x:Static properties:Resources.Bookmarks}" DataContext="{Binding LogBookmarkTabVM}" Padding="2">
+                                <Grid>
+                                    <Grid>
+                                    <toolkit:DataGrid AutoGenerateColumns="False" VerticalAlignment="Stretch"
+                                                      mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedRecord, Mode=OneWayToSource}"
+                                                      CanUserAddRows="False" ItemsSource="{Binding LogRecordList}" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" CanUserDeleteRows="True" PreviewKeyDown="DataLogsDisplay_KeyDelete">
+                                        <toolkit:DataGrid.Resources>
+                                            <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                            </Style>
+                                            <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                            </Style>
+                                            <mvvm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                        </toolkit:DataGrid.Resources>
+                                        <mvvm:DataPiping.DataPipes>
+                                            <mvvm:DataPipeCollection>
+                                                <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                                        Target="{Binding Path=SelectedItems, Mode=OneWayToSource}"/>
+                                            </mvvm:DataPipeCollection>
+                                        </mvvm:DataPiping.DataPipes>
+                                        <toolkit:DataGrid.ContextMenu>
+                                            <ContextMenu >
+                                                <MenuItem Header="{x:Static properties:Resources.Copy}" Command="{Binding Data.CopyCommand, Source={StaticResource proxy}}"/>
+                                            </ContextMenu>
+                                        </toolkit:DataGrid.ContextMenu>
+                                        <toolkit:DataGrid.RowStyle>
+                                            <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                                <EventSetter Event="MouseDoubleClick"
+                                                    Handler="OnDatagridRowMouseDoubleClick" />
+                                                <EventSetter Event="KeyDown"
+                                                    Handler="OnDatagridRecordRowPressEnter" />
+                                            </Style>
+                                        </toolkit:DataGrid.RowStyle>
+                                        <toolkit:DataGrid.Columns>
+                                            <toolkit:DataGridTextColumn Width="50" MinWidth="50" Header="{x:Static properties:Resources.Line}" Binding="{Binding Path=Line, Mode=OneWay}"/>
+                                            <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="{x:Static properties:Resources.Date}" Binding="{Binding Path=Date, Mode=OneWay}"/>
+                                            <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="{x:Static properties:Resources.Time}" Binding="{Binding Path=Time, Mode=OneWay}"/>
+                                            <toolkit:DataGridTextColumn Width="60" MinWidth="60" Header="{x:Static properties:Resources.Type}" Binding="{Binding Path=Type, Mode=OneWay}"/>
+                                            <toolkit:DataGridTextColumn Header="{x:Static properties:Resources.Content}" Binding="{Binding Path=Content, Mode=OneWay}" Width="1000"/>
+                                        </toolkit:DataGrid.Columns>
+                                    </toolkit:DataGrid>
+                                </Grid>
+                            </Grid>
+                            </TabItem>
+                            <TabItem IsSelected="{Binding IsShowTabError}" 
+                                     Padding="2"
+                                     Header="{x:Static properties:Resources.Error}" DataContext="{Binding ErrorActionTabVM}">
+                                <Grid>
+                                    <Grid>
+                                        <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
+                                                      EnableRowVirtualization="True" 
+                                                      EnableColumnVirtualization="True" 
+                                                      mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedRecord, Mode=OneWayToSource}"
+                                                      Grid.Row="5" Grid.Column="0" VerticalAlignment="Stretch" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" ItemsSource="{Binding ErrorActionList}" PreviewKeyDown="DataLogsDisplay_KeyDelete">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                                <mvvm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.ContextMenu>
+                                                <ContextMenu >
+                                                    <MenuItem Header="{x:Static properties:Resources.Copy}" Command="{Binding Data.CopyCommand, Source={StaticResource proxy}}"/>
+                                                </ContextMenu>
+                                            </toolkit:DataGrid.ContextMenu>
+                                            <mvvm:DataPiping.DataPipes>
+                                                <mvvm:DataPipeCollection>
+                                                    <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                                        Target="{Binding Path=SelectedItems, Mode=OneWayToSource}"/>
+                                                </mvvm:DataPipeCollection>
+                                            </mvvm:DataPiping.DataPipes>
+                                            <toolkit:DataGrid.RowStyle>
+                                                <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                                    <EventSetter Event="MouseDoubleClick"
+                                                    Handler="OnDatagridRowMouseDoubleClick" />
+                                                    <EventSetter Event="KeyDown"
+                                                    Handler="OnDatagridRecordRowPressEnter" />
+                                                </Style>
+                                            </toolkit:DataGrid.RowStyle>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="50" MinWidth="50" Header="{x:Static properties:Resources.Line}" Binding="{Binding Path=Line, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="{x:Static properties:Resources.Date}" Binding="{Binding Path=Date, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="{x:Static properties:Resources.Time}" Binding="{Binding Path=Time, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="60" MinWidth="60" Header="{x:Static properties:Resources.LogType}" Binding="{Binding Path=LogType, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="80" MinWidth="80" Header="{x:Static properties:Resources.ErrorCode}" Binding="{Binding Path=ErrorCode, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="270" MinWidth="200" Header="{x:Static properties:Resources.Message}" Binding="{Binding Path=Message, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Header="Recipe" Width="800" Binding="{Binding Path=Recipe, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                        </toolkit:DataGrid>
+<Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <ProgressBar HorizontalAlignment="Right"
+                                            Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}"
+                                            IsIndeterminate="True" Width="80" Height="20" />
+                                                <Button Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}" Grid.Column="1" Margin="0" Width="20" Height="20"  Command="{Binding CancelError}" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/LogViewer;component/Images/clearall_e.png">
+                                                        </Image>
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </TabItem>
+                            <TabItem IsSelected="{Binding IsShowTabUserAction}" 
+                                     Padding="2"
+                                     Header="{x:Static properties:Resources.UserAction}" DataContext="{Binding UserActionTabVM}">
+                                <Grid>
+                                    <Grid>
+                                        <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False" VerticalAlignment="Stretch"
+                                                      EnableRowVirtualization="True" 
+                                                      EnableColumnVirtualization="True" 
+                                                      mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedRecord, Mode=OneWayToSource}"
+                                                      Grid.Row="5" Grid.Column="0" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserResizeRows="False" CanUserSortColumns="False" ItemsSource="{Binding UserActionList}" PreviewKeyDown="DataLogsDisplay_KeyDelete">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                                <mvvm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.ContextMenu>
+                                                <ContextMenu >
+                                                    <MenuItem Header="{x:Static properties:Resources.Copy}" Command="{Binding Data.CopyCommand, Source={StaticResource proxy}}"/>
+                                                </ContextMenu>
+                                            </toolkit:DataGrid.ContextMenu>
+                                            <mvvm:DataPiping.DataPipes>
+                                                <mvvm:DataPipeCollection>
+                                                    <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                                        Target="{Binding Path=SelectedItems, Mode=OneWayToSource}"/>
+                                                </mvvm:DataPipeCollection>
+                                            </mvvm:DataPiping.DataPipes>
+                                            <toolkit:DataGrid.RowStyle>
+                                                <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                                    <EventSetter Event="MouseDoubleClick"
+                                                    Handler="OnDatagridRowMouseDoubleClick" />
+                                                    <EventSetter Event="KeyDown"
+                                                    Handler="OnDatagridRecordRowPressEnter" />
+                                                </Style>
+                                            </toolkit:DataGrid.RowStyle>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="50" MinWidth="50" Header="{x:Static properties:Resources.Line}" Binding="{Binding Path=Line, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="{x:Static properties:Resources.Date}" Binding="{Binding Path=Date, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="{x:Static properties:Resources.Time}" Binding="{Binding Path=Time, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="*" Header="{x:Static properties:Resources.UserAction}" Binding="{Binding Path=UserAction, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                        </toolkit:DataGrid>
+<Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <ProgressBar HorizontalAlignment="Right"
+                                            Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}"
+                                            IsIndeterminate="True" Width="80" Height="20" />
+                                                <Button Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}" Grid.Column="1" Margin="0" Width="20" Height="20"  Command="{Binding CancelUserAction}" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/LogViewer;component/Images/clearall_e.png">
+                                                        </Image>
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </TabItem>
+                            <TabItem IsSelected="{Binding IsShowTabPattern}" 
+                                     Padding="2"
+                                     Header="{x:Static properties:Resources.PatternAnalyzed}" Width="100" DataContext="{Binding LogPatternTabVM}">
+                                <Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                      mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedPatternResultItem, Mode=OneWayToSource}"
+                                                      ItemsSource="{Binding PatternRecordList}" 
+                                                      VerticalAlignment="Stretch" Grid.Column="0" Margin="0,0,10,0" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" PreviewKeyDown="DataLogsDisplay_KeyDelete" SelectionMode="Single">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="*" Header="{x:Static properties:Resources.Name}" Binding="{Binding Path=Name, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="90" MinWidth="90" Header="{x:Static properties:Resources.Count}" Binding="{Binding Path=Count, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                            <toolkit:DataGrid.RowStyle>
+                                                <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                                    <EventSetter Event="MouseDoubleClick"
+                                                    Handler="OnDatagridRowMouseDoubleClick" />
+                                                </Style>
+                                            </toolkit:DataGrid.RowStyle>
+                                        </toolkit:DataGrid>
+
+                                        <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                      mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedRecord, Mode=OneWayToSource}"
+                                                      ItemsSource="{Binding CurrentPatternItem.LogRecords}"
+                                                          HorizontalScrollBarVisibility="Auto"
+                                                      VerticalAlignment="Stretch" Grid.Column="1" Margin="10,0,0,0" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" KeyDown="DataLogsDisplay_KeyDelete" SelectionMode="Single">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="90" MinWidth="90" Header="{x:Static properties:Resources.Line}"  Binding="{Binding Path=Line, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="*" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}" Header="{x:Static properties:Resources.Content}" Binding="{Binding Path=Content, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                            <toolkit:DataGrid.RowStyle>
+                                                <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                                    <EventSetter Event="MouseDoubleClick"
+                                                    Handler="OnCCSPatternDatagridRowMouseDoubleClick" />
+                                                    <EventSetter Event="KeyDown"
+                                                    Handler="OnDatagridRecordRowPressEnter" />
+                                                </Style>
+                                            </toolkit:DataGrid.RowStyle>
+                                        </toolkit:DataGrid>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <ProgressBar HorizontalAlignment="Right"
+                                            Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}"
+                                            IsIndeterminate="True" Width="80" Height="20" />
+                                            <Button Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}" Grid.Column="1" Margin="0" Width="20" Height="20"  Command="{Binding CancelPatternAnalyzed}" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/LogViewer;component/Images/clearall_e.png">
+                                                    </Image>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </TabItem>
+                            <TabItem IsSelected="{Binding IsShowTabKeyword}" 
+                                     Padding="2"
+                                     Header="{x:Static properties:Resources.KeywordCount}" Width="100" DataContext="{Binding CountKeywordTabVM}">
+                                <Grid>
+                                    <Grid>
+                                        <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding AnalyzeCountKeywordItems}"
+                                                      Grid.Row="5" Grid.Column="0" VerticalAlignment="Stretch" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" PreviewKeyDown="DataLogsDisplay_KeyDelete">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="*" Header="{x:Static properties:Resources.Name}" Binding="{Binding Path=Name, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="*" Header="{x:Static properties:Resources.Count}" Binding="{Binding Path=Count, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                        </toolkit:DataGrid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <ProgressBar HorizontalAlignment="Right"
+                                            Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}"
+                                            IsIndeterminate="True" Width="80" Height="20" />
+                                                <Button Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}" Grid.Column="1" Margin="0" Width="20" Height="20"  Command="{Binding CancelCountKeyword}" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/LogViewer;component/Images/clearall_e.png">
+                                                        </Image>
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </DockPanel>
+                </Grid>
+                <!--</StackPanel>-->
+            </Border>
+            <GridSplitter HorizontalAlignment="Right" 
+                  VerticalAlignment="Stretch" 
+                  Grid.Column="1" Grid.Row="0" ResizeBehavior="PreviousAndNext"
+                  Width="3" Background="#FFBCBCBC"/>
+            <Border DataContext="{Binding CXDIMainVM}"
+                BorderBrush="Gainsboro" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Grid.Row="0">
+                <Border.Resources>
+                    <mvvm:BindingProxy x:Key="MainProxy" Data="{Binding}" />
+                </Border.Resources>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="90"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <!-- Shortcut right -->
+                    <Grid Name="CXDI_Title_Panel" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Name="CXDITitleLabel" Content="CXDI" Margin="5,0,0,0"/>
+                        <TextBlock VerticalAlignment="Center" Name="CXDITitleFileLabel" Grid.Column="1" TextWrapping="WrapWithOverflow" Text="{Binding CurrentLogFileName}" 
+                                   Foreground="Red" TextTrimming="CharacterEllipsis" >
+                            <TextBlock.ToolTip>
+                                <TextBlock Text="{Binding CurrentLogFileName}" MaxWidth="400" TextWrapping="Wrap"/>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </Grid>
+                    <!-- Button icon for CXDI-->
+                    <WrapPanel Style="{StaticResource WrapPanelShortcut}" Grid.Row="1">
+                        <WrapPanel Style="{StaticResource WrapPanelShortcut}">
+                            <Button Command="{Binding LoadLogFileCommand}" ToolTip="Open file" Style="{StaticResource MenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/openfile.png"  />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ClearAllCommand}" ToolTip="Clear All" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/clearall_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ClearAnalyzeCommand}" 
+                                    Click="RefreshCXDILogsList"
+                                    ToolTip="Clear Analyzed Result" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/refresh.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ExpandCommand}" ToolTip="Expand" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/add_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ShirnkCommand}" ToolTip="Shrink" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/delete_e.png"/>
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                        <WrapPanel Style="{StaticResource WrapPanelShortcut}" >
+                            <Button Command="{Binding GoToTopCommand}" ToolTip="Go to Top" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/gototop_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding GoToBotCommand}" ToolTip="Go to Bottom" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/gotobot_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding JumpToLineCommand}" ToolTip="Move to line" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/gotoline_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding JumpToTimeCommand}" ToolTip="Move to time" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/gotodate_e.png"/>
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                        <WrapPanel Style="{StaticResource WrapPanelShortcut}">
+                            <Button Command="{Binding ProcessTimeCommand}" ToolTip="Calculate Process Time" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/time.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ShowGraphCommand}" ToolTip="Show Graph View" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/graph_e.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding PatternAnalyserCommand}" ToolTip="Pattern Analyzing" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/analyzing.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding CountKeywordCommand}" ToolTip="Count Keyword" Style="{StaticResource LogsMenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/countkey.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding EditPatternSettingCommand}" ToolTip="Set Pattern" Style="{StaticResource MenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/pattern.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding EditKeywordCountSettingCommand}" ToolTip="Set Keyword" Style="{StaticResource MenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/key.png"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding EditFilterSettingCommand}" ToolTip="Set Filter" Style="{StaticResource MenuButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/filter.png"/>
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                    </WrapPanel>
+                    <!-- Filter Zone-->
+                    <WrapPanel Style="{StaticResource WrapPanelFilter}" Grid.Row="2">
+                        <!-- Filter Setting-->
+                        <WrapPanel Margin="5,0,0,0">
+                            <Label Name="FilterCXDILabel" VerticalAlignment="Center" Content="{x:Static properties:Resources.FilterColon}" />
+                            <AdornerDecorator>
+                                <TextBox Name="FilterCXDITextBox"  Width="200" VerticalContentAlignment="Center"
+                                     Text="{Binding StringFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                            <Style.Resources>
+                                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                    <VisualBrush.Visual>
+                                                        <Label Content="{x:Static properties:Resources.PleaseInputFilterString}" Foreground="Gray" />
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Style.Resources>
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="Text" Value="{x:Null}">
+                                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                                    <Setter Property="Background" Value="White" />
+                                                </Trigger>
+                                                <Trigger Property="Validation.HasError" Value="true">
+                                                    <Setter Property="TextBox.ToolTip" Value="{StaticResource TBCXDIToolTip}" />
+                                                    <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </AdornerDecorator>
+                            <ComboBox Name="ContentCXDIComboBox" 
+                                      SelectedValue="{Binding LogItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemsSource="{Binding LogItemList}" 
+                                      DisplayMemberPath="Display"
+                                      SelectedValuePath="Value" VerticalContentAlignment="Center">
+                            </ComboBox>
+                            <ToggleButton Name="tbtnCXDINarrowFilterNonColor" Command="{Binding NarrowNonColorFilterCommand}" ToolTip="Refine Filtering" 
+                                          IsChecked="{Binding IsOnNarrowNonColorFilter, Mode=TwoWay}"
+                                          Style="{StaticResource LogsNarrowFilterButton}" Checked="tbtnCXDINarrowFilterNonColor_Checked">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/refinecolor.png" ToolTip="Refine Filtering" />
+                                </StackPanel>
+                            </ToggleButton>
+                            <ToggleButton Name="tbtnCXDINarrowFilterColor" Command="{Binding NarrowColorFilterCommand}" 
+                                          IsChecked="{Binding IsOnNarrowColorFilter, Mode=TwoWay}"
+                                          ToolTip="Color Filtering" Style="{StaticResource LogsNarrowFilterButton}" 
+                                          Checked="tbtnCXDINarrowFilterColor_Checked">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/LogViewer;component/Images/filtercolor.png" ToolTip="Color Filtering" />
+                                </StackPanel>
+                            </ToggleButton>
+                        </WrapPanel>
+                        <WrapPanel Margin="5,5,0,0">
+                            <Popup IsOpen="{Binding IsOpenPopup}" StaysOpen="False" AllowsTransparency="True">
+                                <Border Style="{StaticResource BorderColorFilterArena}"
+                                Name="CXDIColorButtonArena">
+                                    <StackPanel Orientation="Vertical">
+                                        <Border Style="{StaticResource BorderColorFilterRow}">
+                                            <WrapPanel HorizontalAlignment="Left">
+                                                <Button Style="{StaticResource ButtonCollapseColorFilter}" Content="5" Command="{Binding ClosePopupCommand}"/>
+                                            </WrapPanel>
+                                        </Border>
+
+                                        <Border Style="{StaticResource BorderColorFilterRow}">
+                                            <StackPanel HorizontalAlignment="Center" Margin="5">
+                                                <view:FilterButtonArea ButtonClicked="RefreshCXDILogsList"
+                                            ItemsSourceRemain="{Binding FilterSettingList}"></view:FilterButtonArea>
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource BorderColorFilterRow}">
+                                            <WrapPanel HorizontalAlignment="Center">
+                                                <WrapPanel Style="{StaticResource WrapColorButtonBottom}">
+                                                    <Button Content="{x:Static properties:Resources.SelectAll}" Click="RefreshCXDILogsList" Command="{Binding SelectAllFilterSettingCommand}"></Button>
+                                                    <Button Content="{x:Static properties:Resources.Add}" Command="{Binding EditFilterSettingCommand}"></Button>
+                                                    <Button Content="{x:Static properties:Resources.Clear}" Click="RefreshCXDILogsList" Command="{Binding ClearColorFilterSettingCommand}"></Button>
+                                                </WrapPanel>
+                                            </WrapPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
+                        </WrapPanel>
+                        <WrapPanel Style="{StaticResource WrapColorFilter_NF}">
+                            <Button Style="{StaticResource ButtonCollapseColorFilter}" Content="4" Command="{Binding OpenPopupCommand}"/>
+                            <WrapPanel Style="{StaticResource WrapColorButtonFilter}" Name="CXDIColorButtonArenaNF">
+                                <view:FilterButtonArea 
+                                    ButtonClicked="RefreshCXDILogsList"
+                                    ItemsSourceSummary="{Binding FilterSettingList}"></view:FilterButtonArea>
+                            </WrapPanel>
+                        </WrapPanel>
+                    </WrapPanel>
+                    <!-- Data log for CXDI-->
+                    <!-- LoadingRow="DataGrid_LoadingRow" -->
+                    <Grid Visibility="Visible" Grid.Row="3">
+                        <Grid DataContext="{Binding LogsDisplayVM}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <!--the Tag property is for IsOnFollowMode function related purpose-->
+                            <toolkit:DataGrid Name="DataLogCXDI" Grid.Row="0"
+                                              mvvm:DatagridHelper.ClickedRow ="{Binding ClickedRecord, Mode=OneWayToSource}"
+                                              EnableRowVirtualization="True" 
+                                              EnableColumnVirtualization="False" 
+                                              FontSize="{Binding FontOfDataGrid, Converter={StaticResource FontSizeConverter}}" 
+                                              ItemsSource="{Binding BaseRecordVMList, Mode=TwoWay}"
+                                                AutoGenerateColumns="False" mvvm:DatagridHelper.RecordToShow="{Binding RecordForJump}"
+                                              mvvm:DatagridHelper.RecordToFollow="{Binding RecordForFollow}"
+                                              mvvm:DatagridHelper.RefreshData="{Binding RefreshData}"
+                                              CanUserAddRows="False" MinWidth="430" 
+                                              CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" 
+                                              AllowDrop="True" PreviewDragOver="OnDragOverCXDI" Margin="5,0,0,0" PreviewKeyDown="DataLogsDisplay_KeyDown"
+                                              Tag="{Binding DataContext, ElementName=DataLogCCSDisplay}" Loaded="DataLogCCSDisplay_Loaded" SelectionChanged="DataLogCCSDisplay_SelectionChanged">
+                                <toolkit:DataGrid.Resources>
+                                    <mvvm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                    <!--<mvvm:BindingProxy x:Key="MainViewProxy" Data="{Binding}" />-->
+                                    <mvvm:CommandReference x:Key="AddMoreBookmarkReference" Command="{Binding Data.AddMoreBookmark, Source={StaticResource MainProxy}}" />
+                                </toolkit:DataGrid.Resources>
+                                <toolkit:DataGrid.InputBindings>
+                                    <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                </toolkit:DataGrid.InputBindings>
+                                <toolkit:DataGrid.ContextMenu>
+                                    <ContextMenu >
+                                        <MenuItem Header="{x:Static properties:Resources.Copy}" Command="{Binding CopyCommand}"/>
+                                        <CheckBox Content="{x:Static properties:Resources.FollowMode}" IsChecked="{Binding Data.IsOnFollowModeCXDI, Source={StaticResource MainViewProxy}}"/>
+                                    </ContextMenu>
+                                </toolkit:DataGrid.ContextMenu>
+                                <toolkit:DataGrid.RowStyle>
+                                    <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" 
+                                                    Handler="OnDatagridRowMouseDown" />
+                                    </Style>
+                                </toolkit:DataGrid.RowStyle>
+                                <i:Interaction.Behaviors>
+                                    <mvvm:DataGridDragDropBehavior AllowedEffects="All" Command="{Binding Data.DragDropCommand, Source={StaticResource MainProxy}}"/>
+                                </i:Interaction.Behaviors>
+                                <mvvm:DataPiping.DataPipes>
+                                    <mvvm:DataPipeCollection>
+                                        <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                                        Target="{Binding Path=SelectedItems, Mode=OneWayToSource}"/>
+                                    </mvvm:DataPipeCollection>
+                                </mvvm:DataPiping.DataPipes>
+                                <toolkit:DataGrid.Columns>
+                                    <toolkit:DataGridTemplateColumn Visibility="{Binding Data.IsDisplayBookmark,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Path=IsBookmarked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Command="{Binding Path=BookmarkCommand}" 
+                                                    CommandParameter="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn >
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Line}" Width="50" MinWidth="50" Visibility="{Binding Data.IsDisplayLine,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Line" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="50"
+                                                             mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Line, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Date}" Width="75" MinWidth="75" Visibility="{Binding Data.IsDisplayDate,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Date" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="75"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Date, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Time}" Width="75" MinWidth="75" Visibility="{Binding Data.IsDisplayTime,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Time" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="75"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Time, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Module}" Width="100" MinWidth="100" Visibility="{Binding Data.IsDisplayModule,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Module" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="100"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Module, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Message}" Width="1000" MinWidth="1000" Visibility="{Binding Data.IsDisplayMessage,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox Name="Message" Style="{StaticResource ReadOnlyCellTextBoxStyle}" MinWidth="1000"
+                                                    mvvm:RichTextBoxHelper.DocumentXaml="{Binding Path=Message, Mode=OneWay}" mvvm:RichTextBoxHelper.LineOfContent="{Binding Path=Line, Mode=OneWay}">
+                                                    <RichTextBox.InputBindings>
+                                                        <KeyBinding Key="Space" Command="{StaticResource AddMoreBookmarkReference}" />
+                                                    </RichTextBox.InputBindings>
+                                                </RichTextBox>
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <toolkit:DataGridTemplateColumn Header="{x:Static properties:Resources.Comment}" Width="200" MinWidth="200" Visibility="{Binding Data.IsDisplayComment,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}">
+                                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                                    </toolkit:DataGridTemplateColumn>
+                                    <!--<toolkit:DataGridTextColumn Width="45" MinWidth="45" Header="Line" Binding="{Binding Path=Line, Mode=OneWay}" Visibility="{Binding Data.IsDisplayLine,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}"/>
+                                    <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="Date" Binding="{Binding Path=Date, Mode=OneWay}" Visibility="{Binding Data.IsDisplayDate,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}"/>
+                                    <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="Time" Binding="{Binding Path=Time, Mode=OneWay}" Visibility="{Binding Data.IsDisplayTime,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}"/>
+                                    <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="Module" Binding="{Binding Path=Module, Mode=OneWay}" Visibility="{Binding Data.IsDisplayMessage,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}"/>
+                                    <toolkit:DataGridTextColumn Header="Message" Binding="{Binding Path=Message, Mode=OneWay}" Width="*" Visibility="{Binding Data.IsDisplayModule,Converter={StaticResource BoolToVis}, Source={StaticResource proxy}}"/>-->
+                                </toolkit:DataGrid.Columns>
+                            </toolkit:DataGrid>
+                            <!-- Data log for CXDI-->
+                            <!-- Process for CCS and CXDI-->
+                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" Grid.Row="1">
+                                <Label Name="CXDIProcessLabel" Content="{x:Static properties:Resources.ProcessTimeColon}"/>
+                                <Label Name="CXDIProcessFileLabel" Content="{Binding ProcessTime}" Foreground="Red" />
+                            </WrapPanel>
+                        </Grid>
+                    </Grid>
+                    <GridSplitter HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="4" ResizeBehavior="PreviousAndNext"
+                        Height="3" Background="#FFBCBCBC"/>
+                    <!-- Tab panel for CXDI-->
+                    <DockPanel Style="{StaticResource DockPanelLogReport}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Margin="5,0,0,0">
+                        <!-- Process for CCS and CXDI-->
+                        <!-- Tab panel for CXDI-->
+                        <TabControl Name="TabControlCXDI" Height="Auto" Style="{StaticResource TabControlLogReport}" DataContext="{Binding BaseAnalyzeAreaVM}">
+                            <TabItem IsSelected="{Binding IsShowTabBookmark}" 
+                                     Padding="2"
+                                     Header="{x:Static properties:Resources.Bookmarks}" DataContext="{Binding LogBookmarkTabVM}">
+                                <Grid>
+                                    <Grid>
+                                    <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                      mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedRecord, Mode=OneWayToSource}"
+                                                      Grid.Row="5" Grid.Column="0" VerticalAlignment="Stretch" 
+                                                      ItemsSource="{Binding LogRecordList}" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" PreviewKeyDown="DataLogsDisplay_KeyDelete">
+                                        <toolkit:DataGrid.Resources>
+                                            <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                            </Style>
+                                            <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                            </Style>
+                                            <mvvm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                        </toolkit:DataGrid.Resources>
+                                        <mvvm:DataPiping.DataPipes>
+                                            <mvvm:DataPipeCollection>
+                                                <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                                        Target="{Binding Path=SelectedItems, Mode=OneWayToSource}"/>
+                                            </mvvm:DataPipeCollection>
+                                        </mvvm:DataPiping.DataPipes>
+                                        <toolkit:DataGrid.ContextMenu>
+                                            <ContextMenu >
+                                                <MenuItem Header="{x:Static properties:Resources.Copy}" Command="{Binding Data.CopyCommand, Source={StaticResource proxy}}"/>
+                                            </ContextMenu>
+                                        </toolkit:DataGrid.ContextMenu>
+                                        <toolkit:DataGrid.RowStyle>
+                                            <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                                <EventSetter Event="MouseDoubleClick"
+                                                    Handler="OnDatagridRowMouseDoubleClick" />
+                                                <EventSetter Event="KeyDown"
+                                                    Handler="OnDatagridRecordRowPressEnter" />
+                                            </Style>
+                                        </toolkit:DataGrid.RowStyle>
+                                        <toolkit:DataGrid.Columns>
+                                            <toolkit:DataGridTextColumn Width="50" MinWidth="50" Header="{x:Static properties:Resources.Line}" Binding="{Binding Path=Line, Mode=OneWay}"/>
+                                            <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="{x:Static properties:Resources.Date}" Binding="{Binding Path=Date, Mode=OneWay}"/>
+                                            <toolkit:DataGridTextColumn Width="75" MinWidth="75" Header="{x:Static properties:Resources.Time}" Binding="{Binding Path=Time, Mode=OneWay}"/>
+                                            <toolkit:DataGridTextColumn Width="90" MinWidth="90" Header="{x:Static properties:Resources.Module}" Binding="{Binding Path=Module, Mode=OneWay}"/>
+                                            <toolkit:DataGridTextColumn Header="Message" Binding="{Binding Path=Message, Mode=OneWay}" Width="1000" />
+                                        </toolkit:DataGrid.Columns>
+                                    </toolkit:DataGrid>
+                                </Grid>
+                            </Grid>
+                            </TabItem>
+                            <TabItem IsSelected="{Binding IsShowTabPattern}" 
+                                     Padding="2"
+                                     Header="{x:Static properties:Resources.PatternAnalyzed}" Width="100" DataContext="{Binding LogPatternTabVM}">
+                                <Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                      mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedPatternResultItem, Mode=OneWayToSource}"
+                                                      ItemsSource="{Binding PatternRecordList}"
+                                                      VerticalAlignment="Stretch" Grid.Column="0" Margin="0,0,10,0" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" PreviewKeyDown="DataLogsDisplay_KeyDelete" SelectionMode="Single">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="*" Header="{x:Static properties:Resources.Name}" Binding="{Binding Path=Name, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="90" MinWidth="90" Header="{x:Static properties:Resources.Count}" Binding="{Binding Path=Count, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                            <toolkit:DataGrid.RowStyle>
+                                                <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                                    <EventSetter Event="MouseDoubleClick"
+                                                    Handler="OnDatagridRowMouseDoubleClick" />
+                                                </Style>
+                                            </toolkit:DataGrid.RowStyle>
+                                        </toolkit:DataGrid>
+
+                                        <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False" 
+                                                      mvvm:DatagridHelper.DoubleClickedRow ="{Binding DoubleClickedRecord, Mode=OneWayToSource}"
+                                                      ItemsSource="{Binding CurrentPatternItem.LogRecords}"
+                                                     VerticalAlignment="Stretch" Grid.Column="1" Margin="10,0,0,0" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" PreviewKeyDown="DataLogsDisplay_KeyDelete" SelectionMode="Single">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="90" MinWidth="90" Header="{x:Static properties:Resources.Line}"  Binding="{Binding Path=Line, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="*" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}}" Header="{x:Static properties:Resources.Message}" Binding="{Binding Path=Message, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                            <toolkit:DataGrid.RowStyle>
+                                                <Style TargetType="{x:Type toolkit:DataGridRow}">
+                                                    <EventSetter Event="MouseDoubleClick"
+                                                    Handler="OnCXDIPatternDatagridRowMouseDoubleClick" />
+                                                    <EventSetter Event="KeyDown"
+                                                    Handler="OnDatagridRecordRowPressEnter" />
+                                                </Style>
+                                            </toolkit:DataGrid.RowStyle>
+                                        </toolkit:DataGrid>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <ProgressBar HorizontalAlignment="Right"
+                                            Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}"
+                                            IsIndeterminate="True" Width="80" Height="20" />
+                                            <Button Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}" Grid.Column="1" Margin="0" Width="20" Height="20"  Command="{Binding CancelPatternAnalyzed}" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/LogViewer;component/Images/clearall_e.png">
+                                                    </Image>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                    
+                                </Grid>
+                            </TabItem>
+                            <TabItem IsSelected="{Binding IsShowTabKeyword}" 
+                                     Padding="2"
+                                     Header="{x:Static properties:Resources.KeywordCount}" Width="100" DataContext="{Binding CountKeywordTabVM}">
+                                <Grid>
+                                    <Grid>
+                                        <toolkit:DataGrid AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding AnalyzeCountKeywordItems}"
+                                                      Grid.Row="5" Grid.Column="0" VerticalAlignment="Stretch" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" PreviewKeyDown="DataLogsDisplay_KeyDelete">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="*" Header="{x:Static properties:Resources.Name}" Binding="{Binding Path=Name, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="*" Header="{x:Static properties:Resources.Count}" Binding="{Binding Path=Count, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                        </toolkit:DataGrid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <ProgressBar HorizontalAlignment="Right"
+                                                    Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}"
+                                                    IsIndeterminate="True" Width="80" Height="20" />
+                                                <Button Visibility="{Binding IsLoadingData, Converter={StaticResource BoolToVis}}" Grid.Column="1" Margin="0" Width="20" Height="20"  Command="{Binding CancelCountKeyword}" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/LogViewer;component/Images/clearall_e.png">
+                                                        </Image>
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                        
+                                    </Grid>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="{x:Static properties:Resources.Firmware}" 
+                                     Padding="2"
+                                     Width="100" DataContext="{Binding FirmwareInfoTabVM}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="23"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="23"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="23"/>
+                                        </Grid.RowDefinitions>
+                                        <Border BorderBrush="Gray" HorizontalAlignment="Stretch" Grid.Row="0">
+                                            <TextBlock Text="{x:Static properties:Resources.CounterParameter}"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <toolkit:DataGrid HeadersVisibility="None" AutoGenerateColumns="False" 
+                                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                          CanUserAddRows="False" ItemsSource="{Binding CXDIFirmware.Counter}"
+                                                      Grid.Row="1" IsEnabled="True" PreviewKeyDown="DataLogsDisplay_KeyDelete">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                                <mvvm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.ContextMenu>
+                                                <ContextMenu >
+                                                    <MenuItem Header="{x:Static properties:Resources.Copy}" Command="{Binding Data.CopyCommand, Source={StaticResource proxy}}"/>
+                                                </ContextMenu>
+                                            </toolkit:DataGrid.ContextMenu>
+                                            <mvvm:DataPiping.DataPipes>
+                                                <mvvm:DataPipeCollection>
+                                                    <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                                        Target="{Binding Path=SelectedItemsCounter, Mode=OneWayToSource}"/>
+                                                </mvvm:DataPipeCollection>
+                                            </mvvm:DataPiping.DataPipes>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="*" Header="Count" Binding="{Binding Path=parameter, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="*" Header="Value" Binding="{Binding Path=value, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                        </toolkit:DataGrid>
+                                        <Border BorderBrush="Gray" HorizontalAlignment="Stretch" Grid.Row="2">
+                                            <TextBlock Text="{x:Static properties:Resources.SaveParameter}"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <toolkit:DataGrid HeadersVisibility="None" AutoGenerateColumns="False"
+                                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                          CanUserAddRows="False" ItemsSource="{Binding CXDIFirmware.Saved}"
+                                                      Grid.Row="3" IsEnabled="True" PreviewKeyDown="DataLogsDisplay_KeyDelete">
+                                            <toolkit:DataGrid.Resources>
+                                                <Style TargetType="{x:Type toolkit:DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                                </Style>
+                                                <Style TargetType="{x:Type toolkit:DataGridCell}" x:Key="DataGridCellCenter">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                </Style>
+                                                <mvvm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                            </toolkit:DataGrid.Resources>
+                                            <toolkit:DataGrid.ContextMenu>
+                                                <ContextMenu >
+                                                    <MenuItem Header="{x:Static properties:Resources.Copy}" Command="{Binding Data.CopyCommand, Source={StaticResource proxy}}"/>
+                                                </ContextMenu>
+                                            </toolkit:DataGrid.ContextMenu>
+                                            <mvvm:DataPiping.DataPipes>
+                                                <mvvm:DataPipeCollection>
+                                                    <mvvm:DataPipe Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type toolkit:DataGrid}}, Path=SelectedItems}"
+                                        Target="{Binding Path=SelectedItemsSaved, Mode=OneWayToSource}"/>
+                                                </mvvm:DataPipeCollection>
+                                            </mvvm:DataPiping.DataPipes>
+                                            <toolkit:DataGrid.Columns>
+                                                <toolkit:DataGridTextColumn Width="*" Header="Count" Binding="{Binding Path=parameter, Mode=OneWay}"/>
+                                                <toolkit:DataGridTextColumn Width="*" Header="Value" Binding="{Binding Path=value, Mode=OneWay}"/>
+                                            </toolkit:DataGrid.Columns>
+                                        </toolkit:DataGrid>
+                                    </Grid>
+                                </ScrollViewer>
+                            </TabItem>
+                        </TabControl>
+                    </DockPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+
+    <!--</StackPanel>-->
+</Window>

@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{289357B1-C19B-46D2-A26A-800E025E8459}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LogViewer</RootNamespace>
+    <AssemblyName>LogViewer</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\LogViewer.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LV.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\tienvnv\Documents\LogViewer\LogViewer\lib\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\WPFToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Business\AnalyzePatternManager.cs" />
+    <Compile Include="Business\AnalyzePattern.cs" />
+    <Compile Include="Business\FileSetting\EnumSettingFileType.cs" />
+    <Compile Include="Business\FileSetting\UserSettingFileException.cs" />
+    <Compile Include="Business\IAnalyzePattern.cs" />
+    <Compile Include="Business\SortLogListManager.cs" />
+    <Compile Include="Exception\DataValueNotSupported.cs" />
+    <Compile Include="Model\AnalyzeCountKeywordItem.cs" />
+    <Compile Include="Model\AnalyzedErrorActionItem.cs" />
+    <Compile Include="Model\AnalyzedPatternResultItem.cs" />
+    <Compile Include="Model\AnalyzedUserActionItem.cs" />
+    <Compile Include="Business\FileParser\BaseParser.cs" />
+    <Compile Include="Business\FileParser\CCSMemoParserNew.cs" />
+    <Compile Include="Business\FileParser\CCSMemoParserOld.cs" />
+    <Compile Include="Business\FileParser\CXDIMemoParser.cs" />
+    <Compile Include="Model\Cave.cs" />
+    <Compile Include="Model\DataType\Prototype.cs" />
+    <Compile Include="Business\FileParser\CCSParserOld.cs" />
+    <Compile Include="Business\FileParser\ParserManager.cs" />
+    <Compile Include="Model\FilterItemProxy.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphParamSetting.cs" />
+    <Compile Include="Business\ItemSetting\BaseItemSetting.cs" />
+    <Compile Include="Business\FileSetting\CCSSettingManager.cs" />
+    <Compile Include="Model\KeyIndexRecordPair.cs" />
+    <Compile Include="Model\PatternColor.cs" />
+    <Compile Include="Model\StringLineIndexPair.cs" />
+    <Compile Include="MVVMHelper\LineSeriesProtobyteToDrawingConverter.cs" />
+    <Compile Include="Model\RecentFileAction.cs" />
+    <Compile Include="Service\FrameworkDialogs\FolderBrowse\FolderBrowserDialogViewModel.cs" />
+    <Compile Include="Util\BetterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Util\BetterDialog.designer.cs">
+      <DependentUpon>BetterDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ConfigValue.cs" />
+    <Compile Include="Model\Counter.cs" />
+    <Compile Include="Model\CXDIFirmware.cs" />
+    <Compile Include="Business\FileSetting\CXDISettingManager.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphRangeSetting.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphType.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphParamResultItem.cs" />
+    <Compile Include="Business\ItemSetting\Graph\GraphResult.cs" />
+    <Compile Include="Model\LogDisplay.cs" />
+    <Compile Include="Model\MemoLog.cs" />
+    <Compile Include="Model\ModelInterface\ICopyable.cs" />
+    <Compile Include="Model\ModelInterface\ILogItemSearch.cs" />
+    <Compile Include="Model\Saved.cs" />
+    <Compile Include="Model\SearchItem.cs" />
+    <Compile Include="Model\ValueDisplayPair.cs" />
+    <Compile Include="MVVMHelper\BindingProxy.cs" />
+    <Compile Include="MVVMHelper\BoolInverterConverter.cs" />
+    <Compile Include="MVVMHelper\DataGridDragDropBehavior.cs" />
+    <Compile Include="MVVMHelper\DataGridDragDropEventArgs.cs" />
+    <Compile Include="MVVMHelper\DatagridHelper.cs" />
+    <Compile Include="MVVMHelper\DataPiping.cs" />
+    <Compile Include="MVVMHelper\EnumToBooleanConverter.cs" />
+    <Compile Include="MVVMHelper\FontSizeConverter.cs" />
+    <Compile Include="MVVMHelper\FontStyleHelper.cs" />
+    <Compile Include="MVVMHelper\FractionToDoubleConverter.cs" />
+    <Compile Include="MVVMHelper\ItemsControlExtensions.cs" />
+    <Compile Include="MVVMHelper\MouseWheelGesture.cs" />
+    <Compile Include="MVVMHelper\ProtobyteToDrawingConverter.cs" />
+    <Compile Include="MVVMHelper\RichTextBoxHelper.cs" />
+    <Compile Include="MVVMHelper\RowToIndexConverter.cs" />
+    <Compile Include="MVVMHelper\TranslateConverter.cs" />
+    <Compile Include="MVVMHelper\Validation\IsDoubleRule.cs" />
+    <Compile Include="MVVMHelper\Validation\IsUlongRule.cs" />
+    <Compile Include="MVVMHelper\WeakEventListener.cs" />
+    <Compile Include="Service\DialogService.cs" />
+    <Compile Include="Service\FrameworkDialogs\FileDialogViewModel.cs" />
+    <Compile Include="Service\FrameworkDialogs\FolderBrowse\FolderBrowserDialog.cs" />
+    <Compile Include="Service\FrameworkDialogs\FolderBrowse\IFolderBrowserDialog.cs" />
+    <Compile Include="Service\FrameworkDialogs\IFileDialog.cs" />
+    <Compile Include="Service\FrameworkDialogs\OpenFile\IOpenFileDialog.cs" />
+    <Compile Include="Service\FrameworkDialogs\OpenFile\OpenFileDialog.cs" />
+    <Compile Include="Service\FrameworkDialogs\OpenFile\OpenFileDialogViewModel.cs" />
+    <Compile Include="Service\FrameworkDialogs\SaveFile\SaveFileDialogViewModel.cs" />
+    <Compile Include="Service\FrameworkDialogs\SaveFile\SaveFileDialog.cs" />
+    <Compile Include="Service\FrameworkDialogs\SaveFile\ISaveFileDialog.cs" />
+    <Compile Include="Service\FrameworkDialogs\WindowWrapper.cs" />
+    <Compile Include="Service\IClosableDialog.cs" />
+    <Compile Include="Service\IDialogService.cs" />
+    <Compile Include="Service\ServiceLocator.cs" />
+    <Compile Include="Util\ExtensionMethod.cs" />
+    <Compile Include="Util\MessageBoxManager.cs" />
+    <Compile Include="Util\RecentFileList.cs" />
+    <Compile Include="Util\Utility.cs" />
+    <Compile Include="ViewModel\BaseApplyWindowViewModel.cs" />
+    <Compile Include="ViewModel\BaseDataGridViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\BaseEditSettingViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\EditCCSFilterSettingViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\EditCCSKeywordCountSettingViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\EditCXDIFilterSettingViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\EditCXDIKeywordCountSettingViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\PatternItemKeysListDataGridViewModel.cs" />
+    <Compile Include="ViewModel\Graph\EventDataGridViewModel.cs" />
+    <Compile Include="ViewModel\Graph\ParameterDataGridViewModel.cs" />
+    <Compile Include="ViewModel\Graph\SetRangeOfGraphViewModel.cs" />
+    <Compile Include="ViewModel\Graph\EditGraphParamSettingViewModel.cs" />
+    <Compile Include="ViewModel\Graph\GraphParameterDataGridViewModel.cs" />
+    <Compile Include="ViewModel\Graph\GraphViewModel.cs" />
+    <Compile Include="ViewModel\LogDisplayRecordViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\ErrorActionTabViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\UserActionTabViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\FilterButtonViewModel.cs" />
+    <Compile Include="ViewModel\SetLogDisplayViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\BaseLogMainViewModel.cs" />
+    <Compile Include="Model\BaseLogRecord.cs" />
+    <Compile Include="Business\BaseLogsAnalyser.cs" />
+    <Compile Include="Model\CCSLogRecord.cs" />
+    <Compile Include="Business\CCSLogsAnalyser.cs" />
+    <Compile Include="ViewModel\SearchKeyword\BaseResultSearchKeywordViewModel.cs" />
+    <Compile Include="ViewModel\BaseWindowViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\LogsDisplay\CCSLogsDisplayViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\CCSMainViewModel.cs" />
+    <Compile Include="Business\FileParser\CCSParserNew.cs" />
+    <Compile Include="Model\CXDILogRecord.cs" />
+    <Compile Include="Business\CXDILogsAnalyser.cs" />
+    <Compile Include="ViewModel\LogMain\CXDIMainViewModel.cs" />
+    <Compile Include="Business\FileParser\CXDIParser.cs" />
+    <Compile Include="Model\ErrorActionItem.cs" />
+    <Compile Include="Business\ItemSetting\KeywordCountItemSetting.cs" />
+    <Compile Include="Model\KeywordCountResultItem.cs" />
+    <Compile Include="ViewModel\ViewModelInterface\ILogsDisplayContainer.cs" />
+    <Compile Include="ViewModel\JumpToLineViewModel.cs" />
+    <Compile Include="ViewModel\LoadingDialogViewModel.cs" />
+    <Compile Include="ViewModel\JumpToTimeViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="Business\ItemSetting\PatternItemSetting.cs" />
+    <Compile Include="Model\KeywordModel.cs" />
+    <Compile Include="Business\ItemSetting\BaseSettingManager.cs" />
+    <Compile Include="Model\UserActionItem.cs" />
+    <Compile Include="MVVMHelper\CommandReference.cs" />
+    <Compile Include="MVVMHelper\DelegateCommand.cs" />
+    <Compile Include="MVVMHelper\SwitchConverter\SwitchCase.cs" />
+    <Compile Include="MVVMHelper\SwitchConverter\SwitchCaseCollection.cs" />
+    <Compile Include="MVVMHelper\SwitchConverter\SwitchConverter.cs" />
+    <Compile Include="MVVMHelper\SwitchConverter\SwitchedContent.cs" />
+    <Compile Include="MVVMHelper\UniversalValueConverter.cs" />
+    <Compile Include="Util\ColorChangedEventArgs.cs" />
+    <Compile Include="Util\ColorPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Util\ColorHandler.cs" />
+    <Compile Include="Util\ColorWheel.cs" />
+    <Compile Include="Business\ItemSetting\FilterItemSetting.cs" />
+    <Compile Include="Util\FileUtil.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\BaseLogAnalyzeAreaViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\LogBookmarkTabViewModel.cs" />
+    <Compile Include="ViewModel\LogRecord\BaseLogRecordDisplayViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\LogsDisplay\BaseLogsDisplayViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\PatternTabViewModel.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\CCSAnalyzeAreaViewModel.cs" />
+    <Compile Include="ViewModel\LogRecord\CCSLogRecordDisplayViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\Tab\CountKeywordTabViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\AnalyzeTab\CXDIAnalyzeAreaViewModel.cs" />
+    <Compile Include="ViewModel\LogRecord\CXDILogRecordDisplayViewModel.cs" />
+    <Compile Include="ViewModel\LogMain\LogsDisplay\CXDILogsDisplayViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\EditFilterSettingViewModel.cs" />
+    <Compile Include="Business\FileParser\ILogParser.cs" />
+    <Compile Include="ViewModel\FirmwareInfoTabViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\EditKeywordCountSettingViewModel.cs" />
+    <Compile Include="ViewModel\SearchKeyword\CCSResultSearchKeywordViewModel.cs" />
+    <Compile Include="ViewModel\SearchKeyword\CXDIResultSearchKeywordViewModel.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\BaseFileFolderManagerViewModel.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\BaseWindowStandardDialogViewModel.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\FolderBrowserDialogViewModel.cs" />
+    <Compile Include="ViewModel\MessageBoxExportViewModel.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\MessageBoxViewModel.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\OpenFileDialogViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\EditPatternSettingViewModel.cs" />
+    <Compile Include="ViewModel\SearchKeyword\SearchKeywordViewModel.cs" />
+    <Compile Include="ViewModel\SetFontStyleDialogViewModel.cs" />
+    <Compile Include="ViewModel\EditSetting\PatternItemViewModel.cs" />
+    <Compile Include="ViewModel\WindowStandardDialog\SaveFileDialogViewModel.cs" />
+    <Compile Include="View\DateTimePicker.xaml.cs">
+      <DependentUpon>DateTimePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditGraphParamSettingView.xaml.cs">
+      <DependentUpon>EditGraphParamSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExportFileNameDialogView.xaml.cs">
+      <DependentUpon>ExportFileNameDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FilterButtonArea.xaml.cs">
+      <DependentUpon>FilterButtonArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoadingDialog.xaml.cs">
+      <DependentUpon>LoadingDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LogDisplaySettingView.xaml.cs">
+      <DependentUpon>LogDisplaySettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MoveToTime.xaml.cs">
+      <DependentUpon>MoveToTime.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MoveToLine.xaml.cs">
+      <DependentUpon>MoveToLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditFilterSettingView.xaml.cs">
+      <DependentUpon>EditFilterSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PatternManagerView.xaml.cs">
+      <DependentUpon>PatternManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PatternItemView.xaml.cs">
+      <DependentUpon>PatternItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\KeywordCountSettingView.xaml.cs">
+      <DependentUpon>KeywordCountSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchKeywordView.xaml.cs">
+      <DependentUpon>SearchKeywordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SetFontStyleDialog.xaml.cs">
+      <DependentUpon>SetFontStyleDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SetRangeOfGraphView.xaml.cs">
+      <DependentUpon>SetRangeOfGraphView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GraphView.xaml.cs">
+      <DependentUpon>GraphView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowViewModelMapping\IWindowViewModelMappings.cs" />
+    <Compile Include="WindowViewModelMapping\WindowViewModelMappings.cs" />
+    <Page Include="View\DateTimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditGraphParamSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ExportFileNameDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FilterButtonArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoadingDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LogDisplaySettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MoveToTime.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\MoveToLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditFilterSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PatternManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PatternItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\KeywordCountSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SearchKeywordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SetFontStyleDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SetRangeOfGraphView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GraphView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Util\BetterDialog.resx">
+      <DependentUpon>BetterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Util\ColorPicker.resx">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LV.ico" />
+    <Resource Include="Images\LV.ico" />
+    <Resource Include="Images\add.png" />
+    <Resource Include="Images\analyzing.png" />
+    <Resource Include="Images\clearall.png" />
+    <Resource Include="Images\delete.png" />
+    <Resource Include="Images\Error.png" />
+    <Resource Include="Images\filtercolor.png" />
+    <Resource Include="Images\gotobot.png" />
+    <Resource Include="Images\gotodate.png" />
+    <Resource Include="Images\gotoline.png" />
+    <Resource Include="Images\gototop.png" />
+    <Resource Include="Images\L-V32.png" />
+    <Resource Include="Images\L-V64.png" />
+    <Resource Include="Images\LV.png" />
+    <Resource Include="Images\openfile.png" />
+    <Resource Include="Images\refinecolor.png" />
+    <Resource Include="Images\refresh.png" />
+    <Resource Include="Images\time.png" />
+    <Resource Include="Images\user.png" />
+    <Resource Include="Images\Calendar.Icon.bmp" />
+    <Resource Include="Images\clearall_e.png" />
+    <Resource Include="Images\graph.png" />
+    <Resource Include="Images\graph_e.png" />
+    <Resource Include="Images\pattern.png" />
+    <Resource Include="Images\add_e.png" />
+    <Resource Include="Images\analyzing_e.png" />
+    <Resource Include="Images\delete_e.png" />
+    <Resource Include="Images\Error_e.png" />
+    <Resource Include="Images\gotobot_e.png" />
+    <Resource Include="Images\gotodate_e.png" />
+    <Resource Include="Images\gotoline_e.png" />
+    <Resource Include="Images\gototop_e.png" />
+    <Resource Include="Images\refesh_e.png" />
+    <Resource Include="Images\time_e.png" />
+    <Resource Include="Images\user_e.png" />
+    <Resource Include="Images\key.png" />
+    <Resource Include="Images\filter.png" />
+    <Resource Include="Images\countkey.png" />
+    <Content Include="lib\System.Windows.Interactivity.dll" />
+    <Content Include="lib\WPFToolkit.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Save-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

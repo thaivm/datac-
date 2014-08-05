@@ -1,0 +1,26 @@
+﻿<Window x:Class="LogViewer.View.MoveToLine"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mvvm="clr-namespace:LogViewer.MVVMHelper"
+        xmlns:properties="clr-namespace:LogViewer.Properties"
+        Title="{x:Static properties:Resources.MoveToLine}" Height="140" Width="238" WindowStyle="ToolWindow" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <mvvm:CommandReference x:Key="JumpToLineCommandReference" Command="{Binding JumpToLineCommand}" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Enter" Command="{StaticResource JumpToLineCommandReference}" />
+    </Window.InputBindings>
+    <Grid Height="106" Width="216">
+        <StackPanel>
+            <WrapPanel HorizontalAlignment="Center" Margin="5">
+                <Label Content="{x:Static properties:Resources.LineNumber}" Name="MoveToLine_LineNumber_Title"/>
+                <TextBox Name="MoveToLine_LineNumber_Textbox" Width="100" PreviewTextInput="MoveToLine_LineNumber_Textbox_PreviewTextInput" Text="{Binding Line, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="MoveToLine_LineNumber_Textbox_PreviewKeyDown" TextChanged="MoveToLine_LineNumber_Textbox_TextChanged" />
+            </WrapPanel>
+            <Label Content="{Binding Message}" HorizontalAlignment="Center" Name="MoveToLine_Warning_Lable" Foreground="Red" />
+            <WrapPanel HorizontalAlignment="Center" Margin="5">
+                <Button Content="{x:Static properties:Resources.JumpTo}" Name="MoveToLine_Button_JumpTo" Command="{Binding JumpToLineCommand}" VerticalAlignment="Top" Width="75" Click="MoveToLine_Button_JumpTo_Click" Margin="2,2,12,2" />
+                <Button Content="{x:Static properties:Resources.Cancel}" Name="MoveToLine_Button_Cancel" VerticalAlignment="Top" Width="75" IsCancel="True" Margin="12,2,2,2"/>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Window>
